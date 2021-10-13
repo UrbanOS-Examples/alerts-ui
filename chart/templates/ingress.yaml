@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: alerts-api
+  namespace: {{ .Release.Namespace }}
+  annotations:
+{{- if .Values.ingress.annotations }}
+{{ toYaml .Values.ingress.annotations | trim | indent 4 }}
+{{- end }}
+spec:
+  backend:
+    serviceName: {{ .Values.service.name }}
+    servicePort: {{ .Values.service.port }}
+  rules:
+  - host: alerts-api.{{ .Values.ingress.rootDnsZone }}
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: redirect
+          servicePort: use-annotation
+  - host: alerts-api.{{ .Values.ingress.dnsZone }}
+    http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: redirect
+          servicePort: use-annotation
+  - http:
+      paths:
+      - path: /*
+        backend:
+          serviceName: redirect
+          servicePort: use-annotation

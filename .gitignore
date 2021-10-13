@@ -1,0 +1,14 @@
+.DS_Store
+
+node_modules
+src/*.js
+*.map
+
+coverage
+jest_output
+
+.terraform
+terraform.tfstate
+terraform.tfstate.backup
+
+shared/

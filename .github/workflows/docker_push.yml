@@ -1,0 +1,28 @@
+name: Publish Docker
+# Publish to docker if the Static Analysis on main completed successfully
+
+on:
+    repository_dispatch:
+        types: [start-publish-docker]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Publish to Registry
+              uses: elgohr/Publish-Docker-Github-Action@master
+              with:
+                  name: smartcitiesdata/alerts-api
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+                  default_branch: main
+                  snapshot: true
+                  tags: 'latest,${{ github.event.client_payload.release_tag_name }}'
+            - name: Kickoff Terraform Action
+              uses: peter-evans/repository-dispatch@v1
+              with:
+                  token: ${{ secrets.ORG_PAT }}
+                  repository: SmartColumbusOS/alerts-dashboard
+                  event-type: start-terraform-deploy
+                  client-payload: '{"release_tag_name": "${{ github.event.client_payload.release_tag_name }}", "ref": "${{ github.event.client_payload.ref }}", "sha": "${{ github.event.client_payload.sha }}"}'
