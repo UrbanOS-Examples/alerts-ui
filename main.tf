@@ -1,5 +1,5 @@
-resource "helm_release" "alerts-api" {
-  name             = "alerts-api"
+resource "helm_release" "alerts-ui" {
+  name             = "alerts-ui"
   repository       = "./chart"
   version          = "0.0.1"
   chart            = "."

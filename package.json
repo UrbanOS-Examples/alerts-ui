@@ -1,7 +1,7 @@
 {
-    "name": "alerts-api",
+    "name": "alerts-ui",
     "version": "0.0.1",
-    "description": "API for the alerts dashboard",
+    "description": "Dashboard that renders alerts",
     "main": "src/listen.js",
     "bin": "src/listen.js",
     "scripts": {

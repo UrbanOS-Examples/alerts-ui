@@ -1,5 +1,5 @@
 image:
-    repository: smartcitiesdata/alerts-api
+    repository: smartcitiesdata/alerts-ui
     tag: latest
     pullPolicy: Always
 
@@ -14,7 +14,7 @@ resources:
         cpu: '1'
 
 service:
-    name: alerts-api
+    name: alerts-ui
     port: 80
     targetPort: 3000
 
