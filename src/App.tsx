@@ -11,6 +11,11 @@ export default class App extends Component {
       console.log('Connected to Alerting Engine');
     };
 
+    client.onmessage = (event) => {
+      this.setState({ currentData: JSON.parse((event.data).toString()) });
+      console.log('Received Alert')
+    };
+
     client.onclose = () => {
       console.log('Disconnected');
       // automatically try to reconnect on connection loss
