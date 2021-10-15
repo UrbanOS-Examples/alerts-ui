@@ -1,37 +1,27 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './App.css';
-let ws: WebSocket
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-async function socketConnect() {
-  ws = new WebSocket('ws://localhost:8080')
+const client = new W3CWebSocket('ws://alerts-api.staging.internal.smartcolumbusos.com')
 
-  ws.onopen = () => {
-    console.log('connected')
+export default class App extends Component {
+
+  componentDidMount() {
+    client.onopen = () => {
+      console.log('Connected to Alerting Engine');
+    };
+
+    client.onclose = () => {
+      console.log('Disconnected');
+      // automatically try to reconnect on connection loss
+    };
   };
 
-  ws.onmessage = evt => {
-    // listen to data sent from the websocket server
-    const message = JSON.parse(evt.data)
-    console.log(message)
-  }
-
-  ws.onclose = () => {
-    console.log('disconnected')
-    // automatically try to reconnect on connection loss
-  }
-};
-
-const App = () => {
-  return (
-    <div className="App">
-      <div className="header">
-        Alerts Dashboard
+  render() {
+    return (
+      <div>
+        Alerting Dashboard Version 2 <br />
       </div>
-    </div>
-
-  );
-}
-
-
-
-export default App;
+    )
+  };
+};
