@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-const client = new W3CWebSocket('ws://alerts-api.staging.internal.smartcolumbusos.com')
+const client = new W3CWebSocket('wss://alerts-api.staging.internal.smartcolumbusos.com')
 
 interface Alert {
   id: string
