@@ -1,13 +1,19 @@
-FROM node:14
-
-WORKDIR /usr/src/app
-
-COPY . .
-
-RUN npm install
-
+FROM node:14.17.4-alpine AS builder
+COPY . /app/src
+WORKDIR /app/src
+RUN apk add --no-cache --virtual .gyp \
+    python \
+    make \
+    g++ \
+    && npm install \
+    && apk del .gyp
 RUN npm run build
-
-EXPOSE 3000
-
-CMD [ "npm", "start" ]
+FROM nginx
+RUN apt-get -y update &&\
+    apt-get install -y nginx-extras &&\
+    rm /etc/nginx/sites-enabled/default
+COPY --from=builder /app/src/build /usr/share/nginx/html
+COPY --from=builder /app/src/run.sh /run.sh
+COPY --from=builder /app/src/nginx-default.conf /etc/nginx/conf.d/default.conf.tpl
+WORKDIR /usr/share/nginx/html
+CMD ["/run.sh"]

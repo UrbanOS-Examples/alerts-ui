@@ -4,7 +4,7 @@ locals {
 
 terraform {
   backend "s3" {
-    key     = "urban-os"
+    key     = "alerts-ui"
     encrypt = true
   }
 }
