@@ -1,0 +1,44 @@
+name: Terraform Deploy
+
+# Use terraform to deploy the previously published docker image
+on:
+    repository_dispatch:
+        types: [start-terraform-deploy]
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - uses: actions/checkout@v2
+              with:
+                  repository: SmartColumbusOS/scos-tf-backends
+                  token: ${{ secrets.ORG_PAT }}
+                  path: shared
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-west-2
+            - name: Setup Terraform
+              uses: hashicorp/setup-terraform@v1
+              with:
+                  terraform_version: 0.12.31
+            - name: Terraform Dev Init
+              if: ${{ !github.event.client_payload.release_tag_name }}
+              run: ./shared/scripts/tf-init -w dev
+            - name: Terraform Staging Init
+              if: ${{ github.event.client_payload.release_tag_name }}
+              run: ./shared/scripts/tf-init -w staging
+            - name: Deploy to Dev with Terraform
+              if: ${{ !github.event.client_payload.release_tag_name }}
+              env:
+                  TF_VAR_os_role_arn: ${{secrets.DEV_ROLE_ARN}}
+              run: terraform apply --var="force_deployment="$RANDOM -auto-approve
+            - name: Deploy to Staging with Terraform
+              if: ${{ github.event.client_payload.release_tag_name }}
+              env:
+                  TF_VAR_os_role_arn: ${{secrets.STAGING_ROLE_ARN}}
+                  TF_VAR_docker_img_tag: ${{ github.event.client_payload.release_tag_name }}
+              run: terraform apply --var="force_deployment="$RANDOM -auto-approve
