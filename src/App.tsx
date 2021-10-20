@@ -12,6 +12,9 @@ interface Alert {
   coordinates: Coordinates
   roadName: string
   status: AlertStatus
+  speed: number
+  avgSpeed: number
+  refSpeed: number
 }
 interface Coordinates {
   latitude: number
