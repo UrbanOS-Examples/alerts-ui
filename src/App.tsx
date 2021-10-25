@@ -49,13 +49,12 @@ export default class App extends Component {
         const parsedAlert = JSON.parse(alert) as Alert;
         console.log('Received Alert');
         console.log(parsedAlert.coordinates);
-        this.setState(state => ({ alerts: [alert] }));
-      };
+        this.setState(() => ({ alerts: [alert] }));
+      }
     };
 
     client.onclose = () => {
       console.log('Disconnected');
-      // automatically try to reconnect on connection loss
     };
   };
 
