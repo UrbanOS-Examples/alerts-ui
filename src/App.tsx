@@ -4,7 +4,7 @@ import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const client = new W3CWebSocket('wss://alerts-api.staging.internal.smartcolumbusos.com')
 
-interface Alert {
+export interface Alert {
   id: string
   type: AlertType
   severity: AlertSeverity
@@ -16,7 +16,7 @@ interface Alert {
   avgSpeed: number
   refSpeed: number
 }
-interface Coordinates {
+export interface Coordinates {
   latitude: number
   longitude: number
 }
