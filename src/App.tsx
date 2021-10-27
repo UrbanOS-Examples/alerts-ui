@@ -32,6 +32,7 @@ export enum AlertType {
 export enum AlertSeverity {
   WARN = 'warn',
 }
+
 export default class App extends Component {
 
   state = {
@@ -64,7 +65,7 @@ export default class App extends Component {
         <div>
           Alerting Dashboard Version 2 <br />
         </div>
-        <div>
+        <div data-testid='alerts'>
           Alerts: {this.state.alerts}
         </div>
       </div>
