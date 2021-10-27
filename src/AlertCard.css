@@ -4,7 +4,6 @@
     align-items: flex-start;
     padding: 0px;
 
-    position: static;
     width: 360px;
     height: 144px;
     left: 0px;
@@ -19,17 +18,33 @@
     margin: auto;
 }
 
+.AlertCard-icon {
+    margin: 16px;
+}
+
 .AlertCard-roadName {
+    margin-top: 16px;
     margin-left: 0;
     margin-right: auto;
     text-transform: capitalize;
-    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    color: #191E24;
 }
 
 .AlertCard-time {
+    margin-top: 16px;
     margin-left: auto;
-    margin-right: 0;
-    padding: 15px;
+    margin-right: 16px;
+    font-size: 14px;
+    font-weight: 400;
+    color: #6C757D;
+}
+
+.AlertCard-leftBar {
+  width: 4px;
+  height: 144px;
+  background: #007AFF;
 }
 
 .AlertCard:hover {

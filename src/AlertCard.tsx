@@ -43,6 +43,7 @@ export function AlertCard(props: AlertCardProps) {
 
     return (
         <div className='AlertCard'>
+          <div className='AlertCard-leftBar'/>
           <img className='AlertCard-icon' data-testid='icon' src={icon} alt=''/>
           <div className='AlertCard-roadName' data-testid='roadName'>{formatRoadName(props.alert.roadName)}</div>
           <div className='AlertCard-time' data-testid='time'>{timeDifference}m ago</div>
