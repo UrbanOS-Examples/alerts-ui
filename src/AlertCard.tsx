@@ -28,10 +28,22 @@ export function AlertCard(props: AlertCardProps) {
       return Math.trunc(minutesDifference);
     }
 
+    function formatRoadName(roadName: string): string {
+        let formattedRoadName = '';
+        roadName.split(' ')
+          .forEach((part) => {
+              const firstLetter = part.charAt(0).toUpperCase();
+              const restOfWord = part.slice(1).toLowerCase();
+              const formattedPart = firstLetter + restOfWord;
+              formattedRoadName = formattedRoadName.concat(formattedPart).concat(' ');
+          });
+        return formattedRoadName.trimEnd();
+    }
+
     return (
         <div className='AlertCard'>
-          <div className='roadName' data-testid='roadName'>{props.alert.roadName}</div>
-          <div className='time' data-testid='time'>{timeDifference}m ago</div>
+          <div className='AlertCard-roadName' data-testid='roadName'>{formatRoadName(props.alert.roadName)}</div>
+          <div className='AlertCard-time' data-testid='time'>{timeDifference}m ago</div>
         </div>
     );
 }

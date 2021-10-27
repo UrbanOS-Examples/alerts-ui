@@ -7,7 +7,7 @@ import {act} from "react-dom/test-utils";
 const oneMinute = 60000;
 const alert: Alert = {
   id: '1234-alert',
-  roadName: 'Swallow Road',
+  roadName: 'SWALLOW RD',
   time: '2021-10-05T19:46:00.231343Z',
   type: AlertType.CONGESTION,
   severity: AlertSeverity.WARN,
@@ -38,10 +38,10 @@ afterEach(() => {
   fakeNow.mockRestore();
 });
 
-test('displays road name', () => {
+test('displays road name with only first letters capitalized', () => {
     render(<AlertCard alert={alert}/>);
     const roadName = screen.getByTestId('roadName');
-    expect(roadName.textContent).toEqual(alert.roadName);
+    expect(roadName.textContent).toEqual('Swallow Rd');
 });
 
 test('shows time since alert was issued', () => {

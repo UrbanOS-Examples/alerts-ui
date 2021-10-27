@@ -12,29 +12,3 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
 }
-
-.AlertCard {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    padding: 0px;
-
-    position: static;
-    width: 360px;
-    height: 144px;
-    left: 0px;
-    top: 6px;
-
-    background: #ffffff;
-
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 6px 0px;
-}
-
-/* On mouse-over, add a deeper shadow */
-.AlertCard:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-}

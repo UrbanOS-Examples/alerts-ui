@@ -46,7 +46,7 @@ const alert: Alert = {
   severity: AlertSeverity.WARN,
   speed: 0,
   status: AlertStatus.NEW,
-  time: '2021-10-05T19:46:00.231343Z',
+  time: '2021-10-27T21:36:00.231343Z',
   type: AlertType.CONGESTION
 
 }
@@ -83,7 +83,9 @@ export default class App extends Component {
         <div>
           Alerting Dashboard Version 2 <br />
         </div>
-           <AlertCard alert={this.state.alerts[0]} />
+        <div className="alertList">
+          <AlertCard alert={this.state.alerts[0]} />
+        </div>
       </div>
     )
   };
