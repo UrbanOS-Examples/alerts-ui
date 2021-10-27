@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import {AlertCard} from "./AlertCard";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
+import {TitleBar} from "./TitleBar";
 
 const client = new W3CWebSocket('wss://alerts-api.staging.internal.smartcolumbusos.com')
 
@@ -80,9 +81,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <div>
-          Alerting Dashboard Version 2 <br />
-        </div>
+        <TitleBar/>
         <div className="alertList">
           <AlertCard alert={this.state.alerts[0]} />
         </div>

@@ -1,4 +1,5 @@
 .AlertCard {
+    font-family: Roboto;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -15,7 +16,9 @@
     order: 1;
     align-self: stretch;
     flex-grow: 0;
-    margin: auto;
+    margin-top: 6px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .AlertCard-icon {

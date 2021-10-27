@@ -1,0 +1,17 @@
+.TitleBar {
+    background-color: #191E24;
+    height: 56px;
+    position: relative;
+}
+
+.TitleBar-title {
+    color: white;
+    text-align: left;
+    font-family: Quicksand;
+    font-size: 24px;
+    font-weight: 300;
+    margin: auto auto auto 16px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}

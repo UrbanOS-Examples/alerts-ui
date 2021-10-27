@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'typeface-roboto';
+import "@fontsource/roboto";
+import "@fontsource/quicksand";
 
 ReactDOM.render(
   <React.StrictMode>

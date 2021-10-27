@@ -12,7 +12,7 @@ afterEach(() => socketServer.close());
 
 test('renders dashboard title', () => {
   render(<App />);
-  const linkElement = screen.getByText(/Alerting Dashboard/i);
+  const linkElement = screen.getByText(/Smart Traffic/i);
   expect(linkElement).toBeInTheDocument();
 });
 
