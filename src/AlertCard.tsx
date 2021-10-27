@@ -1,6 +1,7 @@
 import {Alert} from "./App";
 import {useEffect, useState} from "react";
 import './AlertCard.css';
+import icon from './congestion_icon.png';
 
 interface AlertCardProps {
     alert: Alert
@@ -42,6 +43,7 @@ export function AlertCard(props: AlertCardProps) {
 
     return (
         <div className='AlertCard'>
+          <img className='AlertCard-icon' data-testid='icon' src={icon} alt=''/>
           <div className='AlertCard-roadName' data-testid='roadName'>{formatRoadName(props.alert.roadName)}</div>
           <div className='AlertCard-time' data-testid='time'>{timeDifference}m ago</div>
         </div>

@@ -74,3 +74,9 @@ test('updates elapsed time every minute', () => {
   const newTimeSince = screen.getByTestId('time');
   expect(newTimeSince.textContent).toEqual('5m ago');
 });
+
+test('shows congestion icon', () => {
+    render(<AlertCard alert={alert}/>);
+    const icon = screen.getByTestId('icon');
+    expect(icon).toBeInTheDocument();
+});
