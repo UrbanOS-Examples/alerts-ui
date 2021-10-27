@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import {AlertCard} from "./AlertCard";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 
 const client = new W3CWebSocket('wss://alerts-api.staging.internal.smartcolumbusos.com')
@@ -33,10 +34,27 @@ export enum AlertSeverity {
   WARN = 'warn',
 }
 
+const alert: Alert = {
+  avgSpeed: 60,
+  coordinates: {
+    latitude: -23,
+    longitude: -45
+  },
+  id: '5678-alert',
+  refSpeed: 70,
+  roadName: 'HERON DRIVE',
+  severity: AlertSeverity.WARN,
+  speed: 0,
+  status: AlertStatus.NEW,
+  time: '2021-10-05T19:46:00.231343Z',
+  type: AlertType.CONGESTION
+
+}
+
 export default class App extends Component {
 
   state = {
-    alerts: []
+    alerts: [alert]
   }
 
   componentDidMount() {
@@ -61,13 +79,11 @@ export default class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="App">
         <div>
           Alerting Dashboard Version 2 <br />
         </div>
-        <div data-testid='alerts'>
-          Alerts: {this.state.alerts}
-        </div>
+           <AlertCard alert={this.state.alerts[0]} />
       </div>
     )
   };

@@ -1,5 +1,6 @@
 import {Alert} from "./App";
 import {useEffect, useState} from "react";
+import './AlertCard.css';
 
 interface AlertCardProps {
     alert: Alert
@@ -28,7 +29,7 @@ export function AlertCard(props: AlertCardProps) {
     }
 
     return (
-        <div>
+        <div className='AlertCard'>
           <div className='roadName' data-testid='roadName'>{props.alert.roadName}</div>
           <div className='time' data-testid='time'>{timeDifference}m ago</div>
         </div>
