@@ -1,6 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 import {AlertCard} from "./AlertCard";
+import {AlertPane} from "./AlertPane"
 import { w3cwebsocket as W3CWebSocket } from "websocket";
 import {TitleBar} from "./TitleBar";
 
@@ -52,8 +53,42 @@ const alert: Alert = {
 
 }
 
+const alert2: Alert = {
+  avgSpeed: 100,
+  coordinates: {
+    latitude: -23,
+    longitude: -45
+  },
+  id: '9876-alert',
+  refSpeed: 70,
+  roadName: 'JOE DRIVE',
+  severity: AlertSeverity.WARN,
+  speed: 0,
+  status: AlertStatus.NEW,
+  time: '2021-10-27T21:36:00.231343Z',
+  type: AlertType.CONGESTION
+
+}
+
+const alert3: Alert = {
+  avgSpeed: 60,
+  coordinates: {
+    latitude: -23,
+    longitude: -45
+  },
+  id: '0001-alert',
+  refSpeed: 70,
+  roadName: 'APPLE STREET',
+  severity: AlertSeverity.WARN,
+  speed: 0,
+  status: AlertStatus.NEW,
+  time: '2021-10-27T21:36:00.231343Z',
+  type: AlertType.CONGESTION
+
+}
+
 export default function App () {
-  const [alerts, setAlerts] = useState([alert]);
+  const [alerts, setAlerts] = useState([alert,alert2,alert3]);
 
   useEffect(() => {
     client.onopen = () => {
@@ -66,7 +101,7 @@ export default function App () {
         const parsedAlert = JSON.parse(alert) as Alert;
         console.log('Received Alert');
         console.log(parsedAlert.coordinates);
-        setAlerts([parsedAlert]);
+        setAlerts(alerts => [...alerts, parsedAlert]);
       }
     };
 
@@ -79,7 +114,7 @@ export default function App () {
     <div className="App">
       <TitleBar/>
       <div className="alertList">
-        <AlertCard alert={alerts[0]} />
+        <AlertPane alerts={alerts} />
       </div>
     </div>
   )

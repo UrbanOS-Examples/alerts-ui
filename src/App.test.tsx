@@ -41,3 +41,8 @@ test('displays alert', () => {
     expect(alerts.textContent).toContain(alert.roadName);
   });
 });
+
+test('Renders alert pane', () => {
+  const { container } = render (<App />);
+  expect(container.getElementsByClassName('AlertPane').length).toBe(1);
+});
