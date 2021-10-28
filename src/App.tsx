@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import './App.css';
 import {AlertCard} from "./AlertCard";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
@@ -52,13 +52,10 @@ const alert: Alert = {
 
 }
 
-export default class App extends Component {
+export default function App () {
+  const [alerts, setAlerts] = useState([alert]);
 
-  state = {
-    alerts: [alert]
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     client.onopen = () => {
       console.log('Connected to Alerting Engine');
     };
@@ -69,23 +66,21 @@ export default class App extends Component {
         const parsedAlert = JSON.parse(alert) as Alert;
         console.log('Received Alert');
         console.log(parsedAlert.coordinates);
-        this.setState(() => ({ alerts: [alert] }));
+        setAlerts([parsedAlert]);
       }
     };
 
     client.onclose = () => {
       console.log('Disconnected');
     };
-  };
-
-  render() {
-    return (
-      <div className="App">
-        <TitleBar/>
-        <div className="alertList">
-          <AlertCard alert={this.state.alerts[0]} />
-        </div>
+  });
+  
+  return (
+    <div className="App">
+      <TitleBar/>
+      <div className="alertList">
+        <AlertCard alert={alerts[0]} />
       </div>
-    )
-  };
-};
+    </div>
+  )
+}
