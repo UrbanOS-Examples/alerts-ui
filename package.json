@@ -22,6 +22,12 @@
         "web-vitals": "^1.1.2",
         "websocket": "^1.0.34"
     },
+    "devDependencies": {
+      "jest-websocket-mock": "^2.2.1",
+      "mock-socket": "^9.0.6",
+      "prettier": "^2.4.1",
+      "wait-for-expect": "^3.0.2"
+    },
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
@@ -45,10 +51,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "devDependencies": {
-        "jest-websocket-mock": "^2.2.1",
-        "mock-socket": "^9.0.6",
-        "wait-for-expect": "^3.0.2"
     }
 }

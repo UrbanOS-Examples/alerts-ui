@@ -32,7 +32,7 @@
     text-transform: capitalize;
     font-size: 18px;
     font-weight: 500;
-    color: #191E24;
+    color: #191e24;
 }
 
 .AlertCard-time {
@@ -41,13 +41,13 @@
     margin-right: 16px;
     font-size: 14px;
     font-weight: 400;
-    color: #6C757D;
+    color: #6c757d;
 }
 
 .AlertCard-leftBar {
-  width: 4px;
-  height: 144px;
-  background: #007AFF;
+    width: 4px;
+    height: 144px;
+    background: #007aff;
 }
 
 .AlertCard:hover {
