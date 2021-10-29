@@ -1,13 +1,13 @@
 .AlertCard {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 0px;
+    padding: 0;
 
     width: 360px;
     height: 144px;
-    left: 0px;
+    left: 0;
     top: 6px;
 
     background: #ffffff;
