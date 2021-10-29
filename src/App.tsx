@@ -5,7 +5,7 @@ import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { TitleBar } from './TitleBar';
 
 const client = new W3CWebSocket(
-    'wss://alerts-api.staging.internal.smartcolumbusos.com',
+    'ws://localhost:8080',
 );
 
 export interface Alert {
@@ -19,6 +19,12 @@ export interface Alert {
     speed: number;
     avgSpeed: number;
     refSpeed: number;
+    camera: Camera;
+}
+
+export interface Camera {
+    name: string;
+    distance: number;
 }
 
 export interface Coordinates {
@@ -52,6 +58,7 @@ const alert: Alert = {
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
+    camera: {name: 'null', distance: 0},
 };
 
 const alert2: Alert = {
@@ -68,6 +75,7 @@ const alert2: Alert = {
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
+    camera: {name: 'null', distance: 0},
 };
 
 const alert3: Alert = {
@@ -84,6 +92,7 @@ const alert3: Alert = {
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
+    camera: {name: 'null', distance: 0},
 };
 
 export default function App() {
@@ -100,7 +109,7 @@ export default function App() {
                 const parsedAlert = JSON.parse(alert) as Alert;
                 console.log('Received Alert');
                 console.log(parsedAlert.coordinates);
-                setAlerts((alerts) => [...alerts, parsedAlert]);
+                setAlerts((alerts) => [parsedAlert, ...alerts]);
             }
         };
 
