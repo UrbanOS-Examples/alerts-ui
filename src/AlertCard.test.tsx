@@ -79,6 +79,39 @@ test('updates elapsed time every minute', () => {
 
 test('shows congestion icon', () => {
     render(<AlertCard alert={alert} />);
-    const icon = screen.getByTestId('icon');
+    const icon = screen.getByTestId('congestionIcon');
     expect(icon).toBeInTheDocument();
+});
+
+test('shows no camera when nothing available', () => {
+    let { container } = render(<AlertCard alert={alert} />);
+    const camera = container.getElementsByClassName('camera');
+    expect(camera.length).toEqual(0);
+});
+
+test('shows camera location when one is available', () => {
+    const alertWithCamera: Alert = {
+        avgSpeed: 60,
+        camera: {
+            name: 'CRANE CT @ BIRD LN',
+            distance: 0.1,
+        },
+        coordinates: {
+            latitude: -20,
+            longitude: 29,
+        },
+        id: '0000-camera-alert',
+        refSpeed: 60,
+        roadName: 'CRANE COURT',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '2021-10-05T19:46:00.231343Z',
+        type: AlertType.CONGESTION,
+    };
+    render(<AlertCard alert={alertWithCamera} />);
+    const cameraIcon = screen.getByTestId('cameraIcon');
+    expect(cameraIcon).toBeInTheDocument();
+    const camera = screen.getByTestId('camera');
+    expect(camera.textContent).toEqual('Crane Ct @ Bird Ln');
 });

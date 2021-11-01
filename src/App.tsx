@@ -56,9 +56,12 @@ const alert: Alert = {
     severity: AlertSeverity.WARN,
     speed: 0,
     status: AlertStatus.NEW,
-    time: '2021-10-27T21:36:00.231343Z',
+    time: new Date().toString(),
     type: AlertType.CONGESTION,
-    camera: undefined,
+    camera: {
+        name: 'CRANE CT @ BIRD LN',
+        distance: 0.1,
+    },
 };
 
 const alert2: Alert = {

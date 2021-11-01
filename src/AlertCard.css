@@ -21,8 +21,23 @@
     margin-right: auto;
 }
 
-.AlertCard-icon {
+.AlertCard-congestionIcon {
     margin: 16px;
+}
+
+.AlertCard-content {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 0 0 8px;
+    height: 82px;
+    width: 360px;
+}
+
+.AlertCard-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 .AlertCard-roadName {
@@ -39,6 +54,20 @@
     margin-top: 16px;
     margin-left: auto;
     margin-right: 16px;
+}
+
+.AlertCard-camera {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 2px 0 0;
+}
+
+.AlertCard-cameraText {
+    margin: 2px 2px;
+}
+
+.AlertCard-smallFont {
     font-size: 14px;
     font-weight: 400;
     color: #6c757d;

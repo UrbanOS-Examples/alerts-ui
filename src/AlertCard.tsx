@@ -1,7 +1,8 @@
 import { Alert } from './App';
 import { useEffect, useState } from 'react';
 import './AlertCard.css';
-import icon from './congestion_icon.png';
+import congestionIcon from './congestion_icon.png';
+import cameraIcon from './videocam.png';
 
 interface AlertCardProps {
     alert: Alert;
@@ -28,33 +29,51 @@ export function AlertCard(props: AlertCardProps) {
         return Math.trunc(minutesDifference);
     }
 
-    function formatRoadName(roadName: string): string {
-        let formattedRoadName = '';
-        roadName.split(' ').forEach((part) => {
+    function formatToTitleCase(phrase: string): string {
+        let formattedPhrase = '';
+        phrase.split(' ').forEach((part) => {
             const firstLetter = part.charAt(0).toUpperCase();
             const restOfWord = part.slice(1).toLowerCase();
             const formattedPart = firstLetter + restOfWord;
-            formattedRoadName = formattedRoadName
-                .concat(formattedPart)
-                .concat(' ');
+            formattedPhrase = formattedPhrase.concat(formattedPart).concat(' ');
         });
-        return formattedRoadName.trimEnd();
+        return formattedPhrase.trimEnd();
     }
 
     return (
         <div className="AlertCard">
             <div className="AlertCard-leftBar" />
-            <img
-                className="AlertCard-icon"
-                data-testid="icon"
-                src={icon}
-                alt=""
-            />
-            <div className="AlertCard-roadName" data-testid="roadName">
-                {formatRoadName(props.alert.roadName)}
-            </div>
-            <div className="AlertCard-time" data-testid="time">
-                {timeDifference}m ago
+            <div className="AlertCard-content">
+                <img
+                    className="AlertCard-congestionIcon"
+                    data-testid="congestionIcon"
+                    src={congestionIcon}
+                    alt=""
+                />
+                <div className="AlertCard-details">
+                    <div className="AlertCard-roadName" data-testid="roadName">
+                        {formatToTitleCase(props.alert.roadName)}
+                    </div>
+                    {props.alert.camera && (
+                        <div className="AlertCard-camera" data-testid="camera">
+                            <img
+                                className="AlertCard-cameraIcon"
+                                data-testid="cameraIcon"
+                                src={cameraIcon}
+                                alt="Camera available"
+                            />
+                            <span className="AlertCard-cameraText AlertCard-smallFont">
+                                {formatToTitleCase(props.alert.camera.name)}
+                            </span>
+                        </div>
+                    )}
+                </div>
+                <div
+                    className="AlertCard-time AlertCard-smallFont"
+                    data-testid="time"
+                >
+                    {timeDifference}m ago
+                </div>
             </div>
         </div>
     );
