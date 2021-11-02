@@ -1,74 +1,132 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import './App.css';
-import { w3cwebsocket as W3CWebSocket } from "websocket";
+import { AlertPane } from './AlertPane';
+import { w3cwebsocket as W3CWebSocket } from 'websocket';
+import { TitleBar } from './TitleBar';
 
-const client = new W3CWebSocket('wss://alerts-api.staging.internal.smartcolumbusos.com')
+const client = new W3CWebSocket(
+    'wss://alerts-api.staging.internal.smartcolumbusos.com',
+);
 
-interface Alert {
-  id: string
-  type: AlertType
-  severity: AlertSeverity
-  time: string
-  coordinates: Coordinates
-  roadName: string
-  status: AlertStatus
-  speed: number
-  avgSpeed: number
-  refSpeed: number
+export interface Alert {
+    id: string;
+    type: AlertType;
+    severity: AlertSeverity;
+    time: string;
+    coordinates: Coordinates;
+    roadName: string;
+    status: AlertStatus;
+    speed: number;
+    avgSpeed: number;
+    refSpeed: number;
+    camera?: Camera;
 }
-interface Coordinates {
-  latitude: number
-  longitude: number
+
+export interface Camera {
+    name: string;
+    distance: number;
+}
+
+export interface Coordinates {
+    latitude: number;
+    longitude: number;
 }
 
 export enum AlertStatus {
-  NEW = 'new',
+    NEW = 'new',
 }
 
 export enum AlertType {
-  CONGESTION = 'congestion',
+    CONGESTION = 'congestion',
 }
 
 export enum AlertSeverity {
-  WARN = 'warn',
+    WARN = 'warn',
 }
-export default class App extends Component {
 
-  state = {
-    alerts: []
-  }
-
-  componentDidMount() {
-    client.onopen = () => {
-      console.log('Connected to Alerting Engine');
-    };
-
-    client.onmessage = (message) => {
-      const alert = message.data as string;
-      if (alert !== "Connected") {
-        const parsedAlert = JSON.parse(alert) as Alert;
-        console.log('Received Alert');
-        console.log(parsedAlert.coordinates);
-        this.setState(state => ({ alerts: [alert] }));
-      };
-    };
-
-    client.onclose = () => {
-      console.log('Disconnected');
-      // automatically try to reconnect on connection loss
-    };
-  };
-
-  render() {
-    return (
-      <div>
-        <div>
-          Alerting Dashboard Version 2 <br />
-        </div>
-        <div>
-          Alerts: {this.state.alerts}
-        </div>
-      </div>
-    )
-  };
+const alert: Alert = {
+    avgSpeed: 60,
+    coordinates: {
+        latitude: -23,
+        longitude: -45,
+    },
+    id: '5678-alert',
+    refSpeed: 70,
+    roadName: 'HERON DRIVE',
+    severity: AlertSeverity.WARN,
+    speed: 0,
+    status: AlertStatus.NEW,
+    time: new Date().toString(),
+    type: AlertType.CONGESTION,
+    camera: {
+        name: 'CRANE CT @ BIRD LN',
+        distance: 0.1,
+    },
 };
+
+const alert2: Alert = {
+    avgSpeed: 100,
+    coordinates: {
+        latitude: -23,
+        longitude: -45,
+    },
+    id: '9876-alert',
+    refSpeed: 70,
+    roadName: 'JOE DRIVE',
+    severity: AlertSeverity.WARN,
+    speed: 0,
+    status: AlertStatus.NEW,
+    time: '2021-10-27T21:36:00.231343Z',
+    type: AlertType.CONGESTION,
+    camera: undefined,
+};
+
+const alert3: Alert = {
+    avgSpeed: 60,
+    coordinates: {
+        latitude: -23,
+        longitude: -45,
+    },
+    id: '0001-alert',
+    refSpeed: 70,
+    roadName: 'APPLE STREET',
+    severity: AlertSeverity.WARN,
+    speed: 0,
+    status: AlertStatus.NEW,
+    time: '2021-10-27T21:36:00.231343Z',
+    type: AlertType.CONGESTION,
+    camera: undefined,
+};
+
+export default function App() {
+    const [alerts, setAlerts] = useState([alert, alert2, alert3]);
+
+    useEffect(() => {
+        client.onopen = () => {
+            console.log('Connected to Alerting Engine');
+        };
+
+        client.onmessage = (message) => {
+            const alert = message.data as string;
+            if (alert !== 'Connected') {
+                const parsedAlert = JSON.parse(alert) as Alert;
+                console.log('Received Alert');
+                console.log(parsedAlert.coordinates);
+                setAlerts((alerts) => [parsedAlert, ...alerts]);
+            }
+        };
+
+        client.onclose = () => {
+            console.log('Disconnected');
+        };
+    });
+
+    return (
+        <div className="App">
+            <TitleBar />
+            <div className="alertList">
+                <AlertPane alerts={alerts} />
+            </div>
+        </div>
+    );
+}
