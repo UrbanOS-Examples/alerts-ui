@@ -111,7 +111,8 @@ export default function App() {
             if (alert !== 'Connected') {
                 const parsedAlert = JSON.parse(alert) as Alert;
                 console.log('Received Alert');
-                console.log(parsedAlert.coordinates);
+                console.log(parsedAlert)
+                console.log(parsedAlert.camera);
                 setAlerts((alerts) => [parsedAlert, ...alerts]);
             }
         };

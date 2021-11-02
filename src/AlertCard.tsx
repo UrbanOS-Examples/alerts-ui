@@ -67,6 +67,14 @@ export function AlertCard(props: AlertCardProps) {
                             </span>
                         </div>
                     )}
+                    <div className="AlertCard-button">
+                        <div className="AlertCard-button1">
+                            Acknowledge 
+                        </div>
+                        <div className="AlertCard-button2">
+                            Remove 
+                        </div>
+                    </div>
                 </div>
                 <div
                     className="AlertCard-time AlertCard-smallFont"
