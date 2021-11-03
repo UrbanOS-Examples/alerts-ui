@@ -78,7 +78,10 @@ const alert2: Alert = {
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
-    camera: undefined,
+    camera: {
+        name: 'HAYDEN RUN BLVD & HAYDEN RUN RD @ HAYDEN RUN RD & SPRING RIVER AVE',
+        distance: 0.00009,
+    },
 };
 
 const alert3: Alert = {
@@ -111,7 +114,7 @@ export default function App() {
             if (alert !== 'Connected') {
                 const parsedAlert = JSON.parse(alert) as Alert;
                 console.log('Received Alert');
-                console.log(parsedAlert)
+                console.log(parsedAlert);
                 console.log(parsedAlert.camera);
                 setAlerts((alerts) => [parsedAlert, ...alerts]);
             }
