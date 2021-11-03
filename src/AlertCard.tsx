@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import './AlertCard.css';
 import congestionIcon from './congestion_icon.png';
 import cameraIcon from './videocam.png';
+import thumbsUp from './thumbsup.svg';
+import thumbsDown from './thumbsdown.svg';
 
 interface AlertCardProps {
     alert: Alert;
@@ -43,44 +45,64 @@ export function AlertCard(props: AlertCardProps) {
     return (
         <div className="AlertCard">
             <div className="AlertCard-leftBar" />
-            <div className="AlertCard-content">
-                <img
-                    className="AlertCard-congestionIcon"
-                    data-testid="congestionIcon"
-                    src={congestionIcon}
-                    alt=""
-                />
-                <div className="AlertCard-details">
-                    <div className="AlertCard-roadName" data-testid="roadName">
-                        {formatToTitleCase(props.alert.roadName)}
+            <div className="AlertCard-interior">
+                <div className="AlertCard-content">
+                    <img
+                        className="AlertCard-congestionIcon"
+                        data-testid="congestionIcon"
+                        src={congestionIcon}
+                        alt=""
+                    />
+                    <div className="AlertCard-details">
+                        <div
+                            className="AlertCard-roadName"
+                            data-testid="roadName"
+                        >
+                            {formatToTitleCase(props.alert.roadName)}
+                        </div>
+                        {props.alert.camera && (
+                            <div
+                                className="AlertCard-camera"
+                                data-testid="camera"
+                            >
+                                <img
+                                    className="AlertCard-cameraIcon"
+                                    data-testid="cameraIcon"
+                                    src={cameraIcon}
+                                    alt="Camera available"
+                                />
+                                <span className="AlertCard-cameraText AlertCard-smallFont">
+                                    {formatToTitleCase(props.alert.camera.name)}
+                                </span>
+                            </div>
+                        )}
                     </div>
-                    {props.alert.camera && (
-                        <div className="AlertCard-camera" data-testid="camera">
-                            <img
-                                className="AlertCard-cameraIcon"
-                                data-testid="cameraIcon"
-                                src={cameraIcon}
-                                alt="Camera available"
-                            />
-                            <span className="AlertCard-cameraText AlertCard-smallFont">
-                                {formatToTitleCase(props.alert.camera.name)}
-                            </span>
-                        </div>
-                    )}
-                    <div className="AlertCard-button">
-                        <div className="AlertCard-button1">
-                            Acknowledge 
-                        </div>
-                        <div className="AlertCard-button2">
-                            Remove 
-                        </div>
+                    <div
+                        className="AlertCard-time AlertCard-smallFont"
+                        data-testid="time"
+                    >
+                        {timeDifference}m ago
                     </div>
                 </div>
-                <div
-                    className="AlertCard-time AlertCard-smallFont"
-                    data-testid="time"
-                >
-                    {timeDifference}m ago
+                <div className="AlertCard-feedback" data-testid="feedback">
+                    <div
+                        className="AlertCard-feedbackText AlertCard-smallFont"
+                        data-testid="feedbackText"
+                    >
+                        Was this congestion?
+                    </div>
+                    <svg
+                        className="AlertCard-thumbsUp AlertCard-button"
+                        data-testid="thumbsUp"
+                    >
+                        <image href={thumbsUp} />
+                    </svg>
+                    <svg
+                        className="AlertCard-thumbsDown AlertCard-button"
+                        data-testid="thumbsDown"
+                    >
+                        <image href={thumbsDown} />
+                    </svg>
                 </div>
             </div>
         </div>

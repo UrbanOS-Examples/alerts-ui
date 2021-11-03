@@ -115,3 +115,13 @@ test('shows camera location when one is available', () => {
     const camera = screen.getByTestId('camera');
     expect(camera.textContent).toEqual('Crane Ct @ Bird Ln');
 });
+
+test('asks for feedback', () => {
+    render(<AlertCard alert={alert} />);
+    const feedbackText = screen.getByTestId('feedbackText');
+    expect(feedbackText.textContent).toEqual('Was this congestion?');
+    const thumbsUp = screen.getByTestId('thumbsUp');
+    expect(thumbsUp).toBeInTheDocument();
+    const thumbsDown = screen.getByTestId('thumbsDown');
+    expect(thumbsDown).toBeInTheDocument();
+});
