@@ -12,14 +12,21 @@ interface AlertCardProps {
 
 const oneMinute = 60000;
 
-enum CongestionFeedback {
-    IS,
-    NOT,
+enum FeedbackOption {
+    CONGESTION = 'CONGESTION',
+    NOT_CONGESTION = 'NOT_CONGESTION',
+}
+
+class Feedback {
+    constructor(
+        public readonly alertId: string,
+        public readonly feedback: FeedbackOption,
+    ) {}
 }
 
 export function AlertCard(props: AlertCardProps) {
     const [timeDifference, setTimeDifference] = useState(minutesSinceAlert());
-    const [feedback, setFeedback] = useState<CongestionFeedback | null>(null);
+    const [feedback, setFeedback] = useState<FeedbackOption | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -48,14 +55,28 @@ export function AlertCard(props: AlertCardProps) {
         return formattedPhrase.trimEnd();
     }
 
+    function saveFeedback(providedFeedback: FeedbackOption): void {
+        setFeedback(providedFeedback);
+        const requestBody = new Feedback(props.alert.id, providedFeedback);
+        const bodyAsString = JSON.stringify(requestBody);
+        window
+            .fetch('https://test/feedback', {
+                method: 'POST',
+                body: bodyAsString,
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
     function styleForPositiveFeedback() {
-        return feedback === CongestionFeedback.IS
+        return feedback === FeedbackOption.CONGESTION
             ? 'AlertCard-providedFeedback'
             : '';
     }
 
     function styleForNegativeFeedback() {
-        return feedback === CongestionFeedback.NOT
+        return feedback === FeedbackOption.NOT_CONGESTION
             ? 'AlertCard-providedFeedback'
             : '';
     }
@@ -112,14 +133,16 @@ export function AlertCard(props: AlertCardProps) {
                     <div
                         className={`AlertCard-thumbsUp AlertCard-button ${styleForPositiveFeedback()}`}
                         data-testid="thumbsUp"
-                        onClick={() => setFeedback(CongestionFeedback.IS)}
+                        onClick={() => saveFeedback(FeedbackOption.CONGESTION)}
                     >
                         <ThumbUpIcon />
                     </div>
                     <div
                         className={`AlertCard-thumbsDown AlertCard-button ${styleForNegativeFeedback()}`}
                         data-testid="thumbsDown"
-                        onClick={() => setFeedback(CongestionFeedback.NOT)}
+                        onClick={() =>
+                            saveFeedback(FeedbackOption.NOT_CONGESTION)
+                        }
                     >
                         <ThumbDownIcon />
                     </div>
