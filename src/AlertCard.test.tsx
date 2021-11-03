@@ -125,3 +125,19 @@ test('asks for feedback', () => {
     const thumbsDown = screen.getByTestId('thumbsDown');
     expect(thumbsDown).toBeInTheDocument();
 });
+
+test('clicking thumbs down alters styling to show click happened', () => {
+    render(<AlertCard alert={alert} />);
+    const thumbsDown = screen.getByTestId('thumbsDown');
+    thumbsDown.click();
+    const postClickButton = screen.getByTestId('thumbsDown');
+    expect(postClickButton.className).toContain('AlertCard-providedFeedback');
+});
+
+test('clicking thumbs up alters styling to show click happened', () => {
+    render(<AlertCard alert={alert} />);
+    const thumbsUp = screen.getByTestId('thumbsUp');
+    thumbsUp.click();
+    const postClickButton = screen.getByTestId('thumbsUp');
+    expect(postClickButton.className).toContain('AlertCard-providedFeedback');
+});

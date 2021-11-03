@@ -124,3 +124,7 @@
 .AlertCard-button:hover {
     fill: #6c757d;
 }
+
+.AlertCard-providedFeedback {
+    fill: #6c757d;
+}

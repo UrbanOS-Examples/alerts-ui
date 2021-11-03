@@ -12,8 +12,14 @@ interface AlertCardProps {
 
 const oneMinute = 60000;
 
+enum CongestionFeedback {
+    IS,
+    NOT,
+}
+
 export function AlertCard(props: AlertCardProps) {
     const [timeDifference, setTimeDifference] = useState(minutesSinceAlert());
+    const [feedback, setFeedback] = useState<CongestionFeedback | null>(null);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -40,6 +46,18 @@ export function AlertCard(props: AlertCardProps) {
             formattedPhrase = formattedPhrase.concat(formattedPart).concat(' ');
         });
         return formattedPhrase.trimEnd();
+    }
+
+    function styleForPositiveFeedback() {
+        return feedback === CongestionFeedback.IS
+            ? 'AlertCard-providedFeedback'
+            : '';
+    }
+
+    function styleForNegativeFeedback() {
+        return feedback === CongestionFeedback.NOT
+            ? 'AlertCard-providedFeedback'
+            : '';
     }
 
     return (
@@ -92,14 +110,16 @@ export function AlertCard(props: AlertCardProps) {
                         Was this congestion?
                     </div>
                     <div
-                        className="AlertCard-thumbsUp AlertCard-button"
+                        className={`AlertCard-thumbsUp AlertCard-button ${styleForPositiveFeedback()}`}
                         data-testid="thumbsUp"
+                        onClick={() => setFeedback(CongestionFeedback.IS)}
                     >
                         <ThumbUpIcon />
                     </div>
                     <div
-                        className="AlertCard-thumbsDown AlertCard-button"
+                        className={`AlertCard-thumbsDown AlertCard-button ${styleForNegativeFeedback()}`}
                         data-testid="thumbsDown"
+                        onClick={() => setFeedback(CongestionFeedback.NOT)}
                     >
                         <ThumbDownIcon />
                     </div>
