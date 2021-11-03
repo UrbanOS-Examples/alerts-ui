@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import './AlertCard.css';
 import congestionIcon from './congestion_icon.png';
 import cameraIcon from './videocam.png';
-import thumbsUp from './thumbsup.svg';
-import thumbsDown from './thumbsdown.svg';
+import { ReactComponent as ThumbUpIcon } from './thumbsup.svg';
+import { ReactComponent as ThumbDownIcon } from './thumbsdown.svg';
 
 interface AlertCardProps {
     alert: Alert;
@@ -91,18 +91,18 @@ export function AlertCard(props: AlertCardProps) {
                     >
                         Was this congestion?
                     </div>
-                    <svg
+                    <div
                         className="AlertCard-thumbsUp AlertCard-button"
                         data-testid="thumbsUp"
                     >
-                        <image href={thumbsUp} />
-                    </svg>
-                    <svg
+                        <ThumbUpIcon />
+                    </div>
+                    <div
                         className="AlertCard-thumbsDown AlertCard-button"
                         data-testid="thumbsDown"
                     >
-                        <image href={thumbsDown} />
-                    </svg>
+                        <ThumbDownIcon />
+                    </div>
                 </div>
             </div>
         </div>

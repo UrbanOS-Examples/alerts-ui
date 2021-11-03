@@ -117,8 +117,9 @@
 .AlertCard-button {
     height: 22px;
     width: 22px;
+    fill: none;
 }
 
-.AlertCard-button:hover image {
-    fill: #6c757d !important;
+.AlertCard-button:hover {
+    fill: #6c757d;
 }
