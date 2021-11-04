@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { AlertPane } from './AlertPane';
-import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { TitleBar } from './TitleBar';
-
-const client = new W3CWebSocket(`${process.env.ALERTS_URL}`);
 
 export interface Alert {
     id: string;
@@ -101,30 +98,28 @@ const alert3: Alert = {
 
 export default function App() {
     const [alerts, setAlerts] = useState([alert, alert2, alert3]);
+    const websocketRef = useRef<WebSocket>();
 
     useEffect(() => {
-        client.onopen = () => {
+        const websocket = new WebSocket(`${process.env.ALERTS_URL}`);
+        websocket.onopen = () => {
             console.log('Connected to Alerting Engine');
         };
-
-        client.onmessage = (message) => {
-            const alert = message.data as string;
-            if (alert !== 'Connected') {
-                const parsedAlert = JSON.parse(alert) as Alert;
-                console.log('Received Alert');
-                console.log(parsedAlert);
-                console.log(parsedAlert.camera);
-                setAlerts((alerts) => [parsedAlert, ...alerts]);
-            }
+        websocket.onerror = () => {
+            console.log('Error received from server');
         };
-
-        client.onerror = (error) => {
-            console.log(`Error: ${error.message}`);
-        };
-
-        client.onclose = () => {
+        websocket.onclose = () => {
             console.log('Disconnected');
         };
+        websocket.onmessage = (message) => {
+            const stringMessage = message.data as string;
+            if (stringMessage !== 'Connected') {
+                console.log(stringMessage);
+                const alert = JSON.parse(stringMessage) as Alert;
+                setAlerts((alerts) => [alert, ...alerts]);
+            }
+        };
+        websocketRef.current = websocket;
     });
 
     return (

@@ -1,65 +1,104 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App, { Alert, AlertSeverity, AlertStatus, AlertType } from './App';
-import { WS } from 'jest-websocket-mock';
+import WS from 'jest-websocket-mock';
 import waitForExpect from 'wait-for-expect';
-import { act } from 'react-dom/test-utils';
 import SpyInstance = jest.SpyInstance;
 
-let socketServer: WS;
 let fakeConsole: SpyInstance;
+let socketServer: WS;
 
-beforeAll(() => {
+beforeEach(() => {
     fakeConsole = jest.spyOn(console, 'log').mockImplementation();
-    socketServer = new WS(`${process.env.ALERTS_URL}`);
+    const url: string = `${process.env.ALERTS_URL}`;
+    socketServer = new WS(url);
 });
-afterAll(async () => {
-    socketServer.server.clients().forEach((client) => client.close());
-    await socketServer.closed;
+
+afterEach(() => {
+    WS.clean();
     fakeConsole.mockRestore();
-}, 30000);
+});
 
 test('renders dashboard title', () => {
     render(<App />);
     const linkElement = screen.getByText(/Smart Traffic/i);
     expect(linkElement).toBeInTheDocument();
 });
-//
-// test.skip('displays alert', async () => {
-//     console.log('Beginning test...');
-//     render(<App />);
-//     console.log('Waiting to connect to socket server...');
-//     await act(async () => {
-//         await socketServer.connected.then(() =>
-//             console.log('Server got a connection!'),
-//         );
-//     });
-//     const alert: Alert = {
-//         avgSpeed: 60,
-//         coordinates: {
-//             latitude: -23,
-//             longitude: -45,
-//         },
-//         id: '5678-alert',
-//         refSpeed: 70,
-//         roadName: 'TEST DRIVE',
-//         severity: AlertSeverity.WARN,
-//         speed: 0,
-//         status: AlertStatus.NEW,
-//         time: '2021-10-05T19:46:00.231343Z',
-//         type: AlertType.CONGESTION,
-//     };
-//     const alertJson = JSON.stringify(alert);
-//     console.log('Sending alert...');
-//     act(() => socketServer.send(alertJson));
-//     await waitFor(() => {
-//         console.log('Waiting for expect...');
-//         const alerts = screen.getByTestId('alerts');
-//         expect(alerts.textContent).toContain(alert.roadName);
-//     });
-// });
-//
-// test('Renders alert pane', () => {
-//     const { container } = render(<App />);
-//     expect(container.getElementsByClassName('AlertPane').length).toBe(1);
-// });
+
+test('renders alert pane', () => {
+    const { container } = render(<App />);
+    expect(container.getElementsByClassName('AlertPane').length).toBe(1);
+});
+
+test('connects to alert stream on startup', () => {
+    render(<App />);
+    expect(socketServer.server.clients().length).toEqual(1);
+});
+
+test('logs when connected to alert stream', async () => {
+    render(<App />);
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith(
+            'Connected to Alerting Engine',
+        );
+    });
+});
+
+test('logs when there is an error', async () => {
+    render(<App />);
+    socketServer.error();
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith('Error received from server');
+    });
+});
+
+test('logs when the socket is disconnected', async () => {
+    render(<App />);
+    socketServer.close();
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith('Disconnected');
+    });
+});
+
+test('logs when new alert is received', async () => {
+    render(<App />);
+    const alert: Alert = {
+        avgSpeed: 0,
+        coordinates: { latitude: 0, longitude: 0 },
+        id: '1234-alert',
+        refSpeed: 0,
+        roadName: '',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '',
+        type: AlertType.CONGESTION,
+    };
+    const alertMessage = JSON.stringify(alert);
+    socketServer.send(alertMessage);
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith(alertMessage);
+    });
+});
+
+test('adds new alerts to current set', async () => {
+    render(<App />);
+    const alert: Alert = {
+        avgSpeed: 0,
+        coordinates: { latitude: 0, longitude: 0 },
+        id: '1234-alert',
+        refSpeed: 0,
+        roadName: 'Test Road',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '',
+        type: AlertType.CONGESTION,
+    };
+    const alertMessage = JSON.stringify(alert);
+    socketServer.send(alertMessage);
+    await waitForExpect(() => {
+        const newAlert = screen.getByText('Test Road');
+        expect(newAlert).toBeInTheDocument();
+    });
+});
