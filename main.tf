@@ -7,6 +7,8 @@ resource "helm_release" "alerts-ui" {
   create_namespace = true
   wait             = false
   recreate_pods    = true
+
+  values =  [file("${path.module}/variables/${terraform.workspace}_values.yaml"),]  
   set_sensitive {
     name  = "ingress.dnsZone"
     value = data.aws_ssm_parameter.dns_zone.value
