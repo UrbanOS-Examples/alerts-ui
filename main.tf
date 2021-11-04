@@ -7,6 +7,8 @@ resource "helm_release" "alerts-ui" {
   create_namespace = true
   wait             = false
   recreate_pods    = true
+
+  values =  [file("${path.module}/variables/${terraform.workspace}_values.yaml"),]  
   set_sensitive {
     name  = "ingress.dnsZone"
     value = data.aws_ssm_parameter.dns_zone.value
@@ -19,7 +21,7 @@ resource "helm_release" "alerts-ui" {
 
   set_sensitive {
     name  = "ingress.annotations.alb\\.ingress\\.kubernetes\\.io/certificate-arn"
-    value = data.aws_ssm_parameter.certificate_arn.value
+    value = "${data.aws_ssm_parameter.certificate_arn.value}\\,${data.aws_ssm_parameter.root_certificate_arn.value}"
   }
 
   set_sensitive {
@@ -53,6 +55,10 @@ data "aws_ssm_parameter" "root_dns_zone" {
 
 data "aws_ssm_parameter" "certificate_arn" {
   name = "${terraform.workspace}_certificate_arn"
+}
+
+data "aws_ssm_parameter" "root_certificate_arn" {
+  name = "${terraform.workspace}_root_certificate_arn"
 }
 
 data "aws_ssm_parameter" "subnets" {
