@@ -16,6 +16,9 @@ services:
       - '8080:8080'
     environment:
       REDIS_HOST: 'redis'
+      INRIX_STREAM: 'wss://streams.staging-smartos.com/socket/websocket'
+      INRIX_DATASET_SYSTEM_NAME: 'inrix__inrix_traffic_speed_data'
+      RAPTOR_API_KEY: ''
   redis:
     image: 'docker.io/bitnami/redis:latest'
     networks:
