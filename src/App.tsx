@@ -4,9 +4,7 @@ import { AlertPane } from './AlertPane';
 import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { TitleBar } from './TitleBar';
 
-const client = new W3CWebSocket(
-    'wss://alerts-api.staging.internal.smartcolumbusos.com',
-);
+const client = new W3CWebSocket(`${process.env.ALERTS_URL}`);
 
 export interface Alert {
     id: string;
@@ -118,6 +116,10 @@ export default function App() {
                 console.log(parsedAlert.camera);
                 setAlerts((alerts) => [parsedAlert, ...alerts]);
             }
+        };
+
+        client.onerror = (error) => {
+            console.log(`Error: ${error.message}`);
         };
 
         client.onclose = () => {

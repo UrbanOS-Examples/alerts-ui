@@ -35,7 +35,7 @@ beforeEach(() => {
     jest.useFakeTimers();
     fakeNow = jest.spyOn(Date, 'now');
     fakeFetch = jest.spyOn(window, 'fetch');
-    fakeConsole = jest.spyOn(console, 'log');
+    fakeConsole = jest.spyOn(console, 'log').mockImplementation();
 });
 
 afterEach(() => {
@@ -160,7 +160,7 @@ test('sends feedback on click', async () => {
     };
     const body = JSON.stringify(feedback);
     await waitForExpect(() => {
-        expect(fakeFetch).toHaveBeenCalledWith('https://test/feedback', {
+        expect(fakeFetch).toHaveBeenCalledWith('https://localhost/feedback', {
             method: 'POST',
             body: body,
         });

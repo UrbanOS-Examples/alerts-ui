@@ -60,7 +60,7 @@ export function AlertCard(props: AlertCardProps) {
         const requestBody = new Feedback(props.alert.id, providedFeedback);
         const bodyAsString = JSON.stringify(requestBody);
         window
-            .fetch('https://test/feedback', {
+            .fetch(`${process.env.FEEDBACK_URL}`, {
                 method: 'POST',
                 body: bodyAsString,
             })
