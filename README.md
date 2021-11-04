@@ -44,3 +44,17 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Kubernetes Cluster Environments
+
+### Development
+
+Your changes will automatically be tested, built and deployed to development on a successful merge request to main.
+
+### Staging
+
+The latest changes will be automatically tested, built, and deployed to staging on a new release.
+
+### Production
+
+The latest changes will be automatically tested, built, and deployed to production on a new release with the release tag equal to 'prod'
