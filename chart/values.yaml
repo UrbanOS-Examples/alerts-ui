@@ -33,3 +33,7 @@ ingress:
         kubernetes.io/ingress.class: alb
     dnsZone: ''
     rootDnsZone: ''
+
+url:
+    alerts: ''
+    feedback: ''
