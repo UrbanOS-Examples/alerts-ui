@@ -10,7 +10,7 @@ let socketServer: WS;
 
 beforeEach(() => {
     fakeConsole = jest.spyOn(console, 'log').mockImplementation();
-    const url: string = `${process.env.ALERTS_URL}`;
+    const url: string = `${process.env.REACT_APP_ALERTS_URL}`;
     socketServer = new WS(url);
 });
 
