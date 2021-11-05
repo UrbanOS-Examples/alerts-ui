@@ -162,6 +162,9 @@ test('sends feedback on click', async () => {
     await waitForExpect(() => {
         expect(fakeFetch).toHaveBeenCalledWith('https://localhost/feedback', {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: body,
         });
     });

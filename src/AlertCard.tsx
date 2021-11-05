@@ -63,6 +63,9 @@ export function AlertCard(props: AlertCardProps) {
         window
             .fetch(`${process.env.REACT_APP_FEEDBACK_URL}`, {
                 method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
                 body: bodyAsString,
             })
             .catch((error) => {
