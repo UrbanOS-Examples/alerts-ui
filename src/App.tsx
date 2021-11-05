@@ -120,7 +120,7 @@ export default function App() {
             }
         };
         websocketRef.current = websocket;
-    });
+    }, []);
 
     return (
         <div className="App">

@@ -32,7 +32,7 @@ test('renders alert pane', () => {
 
 test('connects to alert stream on startup', () => {
     render(<App />);
-    expect(socketServer.server.clients().length).toEqual(1);
+    expect(numberOfWebsocketClients()).toEqual(1);
 });
 
 test('logs when connected to alert stream', async () => {
@@ -101,4 +101,35 @@ test('adds new alerts to current set', async () => {
         const newAlert = screen.getByText('Test Road');
         expect(newAlert).toBeInTheDocument();
     });
+});
+
+function numberOfWebsocketClients() {
+    return socketServer.server.clients().length;
+}
+
+test('only open one websocket connection', async () => {
+    expect(numberOfWebsocketClients()).toEqual(0);
+    render(<App />);
+    await waitForExpect(() => {
+        expect(numberOfWebsocketClients()).toEqual(1);
+    });
+    const alert: Alert = {
+        avgSpeed: 0,
+        coordinates: { latitude: 0, longitude: 0 },
+        id: '7777-alert',
+        refSpeed: 0,
+        roadName: 'Test Road',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '',
+        type: AlertType.CONGESTION,
+    };
+    const alertMessage = JSON.stringify(alert);
+    socketServer.send(alertMessage);
+    await waitForExpect(() => {
+        const newAlert = screen.getByText('Test Road');
+        expect(newAlert).toBeInTheDocument();
+    });
+    expect(numberOfWebsocketClients()).toEqual(1);
 });
