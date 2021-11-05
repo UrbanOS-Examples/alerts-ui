@@ -15,3 +15,5 @@ terraform.tfstate.backup
 shared/
 
 build
+
+.env.production.local

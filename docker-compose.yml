@@ -12,13 +12,20 @@ services:
     networks:
       - app-tier
     ports:
-      - '3000:3000'
       - '8080:8080'
     environment:
       REDIS_HOST: 'redis'
       INRIX_STREAM: 'wss://streams.staging-smartos.com/socket/websocket'
       INRIX_DATASET_SYSTEM_NAME: 'inrix__inrix_traffic_speed_data'
       RAPTOR_API_KEY: ''
+  feedback:
+    image: 'alerts-feedback'
+    networks:
+      - app-tier
+    ports:
+      - '8081:8080'
+    environment:
+      REDIS_HOST: 'redis'
   redis:
     image: 'docker.io/bitnami/redis:latest'
     networks:
