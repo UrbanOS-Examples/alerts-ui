@@ -95,12 +95,13 @@ const alert3: Alert = {
     type: AlertType.CONGESTION,
     camera: undefined,
 };
-const websocket = new WebSocket(`${process.env.REACT_APP_ALERTS_URL}`);
+
 export default function App() {
     const [alerts, setAlerts] = useState([alert, alert2, alert3]);
     const websocketRef = useRef<WebSocket>();
 
     useEffect(() => {
+        const websocket = new WebSocket(`${process.env.REACT_APP_ALERTS_URL}`);
         websocket.onopen = () => {
             console.log('Connected to Alerting Engine');
         };
@@ -119,7 +120,7 @@ export default function App() {
             }
         };
         websocketRef.current = websocket;
-    });
+    }, []);
 
     return (
         <div className="App">
