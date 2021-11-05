@@ -101,7 +101,7 @@ export default function App() {
     const websocketRef = useRef<WebSocket>();
 
     useEffect(() => {
-        const websocket = new WebSocket(`${process.env.ALERTS_URL}`);
+        const websocket = new WebSocket(`${process.env.REACT_APP_ALERTS_URL}`);
         websocket.onopen = () => {
             console.log('Connected to Alerting Engine');
         };

@@ -20,7 +20,7 @@ enum FeedbackOption {
 class Feedback {
     constructor(
         public readonly alertId: string,
-        public readonly feedback: FeedbackOption,
+        public readonly isCongestion: boolean,
     ) {}
 }
 
@@ -57,10 +57,11 @@ export function AlertCard(props: AlertCardProps) {
 
     function saveFeedback(providedFeedback: FeedbackOption): void {
         setFeedback(providedFeedback);
-        const requestBody = new Feedback(props.alert.id, providedFeedback);
+        const feedbackBoolean = providedFeedback === FeedbackOption.CONGESTION;
+        const requestBody = new Feedback(props.alert.id, feedbackBoolean);
         const bodyAsString = JSON.stringify(requestBody);
         window
-            .fetch(`${process.env.FEEDBACK_URL}`, {
+            .fetch(`${process.env.REACT_APP_FEEDBACK_URL}`, {
                 method: 'POST',
                 body: bodyAsString,
             })

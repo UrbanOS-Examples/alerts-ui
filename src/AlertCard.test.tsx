@@ -156,7 +156,7 @@ test('sends feedback on click', async () => {
     thumbsUp.click();
     const feedback = {
         alertId: alert.id,
-        feedback: 'CONGESTION',
+        isCongestion: true,
     };
     const body = JSON.stringify(feedback);
     await waitForExpect(() => {
