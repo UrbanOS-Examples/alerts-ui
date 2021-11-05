@@ -1,19 +1,23 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App, { Alert, AlertSeverity, AlertStatus, AlertType } from './App';
-import { WS } from 'jest-websocket-mock';
-import { act } from 'react-dom/test-utils';
+import WS from 'jest-websocket-mock';
 import waitForExpect from 'wait-for-expect';
+import SpyInstance = jest.SpyInstance;
 
+let fakeConsole: SpyInstance;
 let socketServer: WS;
 
-beforeEach(
-    () =>
-        (socketServer = new WS(
-            'wss://alerts-api.staging.internal.smartcolumbusos.com',
-        )),
-);
-afterEach(() => socketServer.close());
+beforeEach(() => {
+    fakeConsole = jest.spyOn(console, 'log').mockImplementation();
+    const url: string = `${process.env.ALERTS_URL}`;
+    socketServer = new WS(url);
+});
+
+afterEach(() => {
+    WS.clean();
+    fakeConsole.mockRestore();
+});
 
 test('renders dashboard title', () => {
     render(<App />);
@@ -21,32 +25,80 @@ test('renders dashboard title', () => {
     expect(linkElement).toBeInTheDocument();
 });
 
-test('displays alert', () => {
+test('renders alert pane', () => {
+    const { container } = render(<App />);
+    expect(container.getElementsByClassName('AlertPane').length).toBe(1);
+});
+
+test('connects to alert stream on startup', () => {
     render(<App />);
-    const alert: Alert = {
-        avgSpeed: 60,
-        coordinates: {
-            latitude: -23,
-            longitude: -45,
-        },
-        id: '5678-alert',
-        refSpeed: 70,
-        roadName: 'HERON DRIVE',
-        severity: AlertSeverity.WARN,
-        speed: 0,
-        status: AlertStatus.NEW,
-        time: '2021-10-05T19:46:00.231343Z',
-        type: AlertType.CONGESTION,
-    };
-    const alertJson = JSON.stringify(alert);
-    act(() => socketServer.send(alertJson));
-    waitForExpect(() => {
-        const alerts = screen.getByTestId('alerts');
-        expect(alerts.textContent).toContain(alert.roadName);
+    expect(socketServer.server.clients().length).toEqual(1);
+});
+
+test('logs when connected to alert stream', async () => {
+    render(<App />);
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith(
+            'Connected to Alerting Engine',
+        );
     });
 });
 
-test('Renders alert pane', () => {
-    const { container } = render(<App />);
-    expect(container.getElementsByClassName('AlertPane').length).toBe(1);
+test('logs when there is an error', async () => {
+    render(<App />);
+    socketServer.error();
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith('Error received from server');
+    });
+});
+
+test('logs when the socket is disconnected', async () => {
+    render(<App />);
+    socketServer.close();
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith('Disconnected');
+    });
+});
+
+test('logs when new alert is received', async () => {
+    render(<App />);
+    const alert: Alert = {
+        avgSpeed: 0,
+        coordinates: { latitude: 0, longitude: 0 },
+        id: '1234-alert',
+        refSpeed: 0,
+        roadName: '',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '',
+        type: AlertType.CONGESTION,
+    };
+    const alertMessage = JSON.stringify(alert);
+    socketServer.send(alertMessage);
+    await waitForExpect(() => {
+        expect(fakeConsole).toHaveBeenCalledWith(alertMessage);
+    });
+});
+
+test('adds new alerts to current set', async () => {
+    render(<App />);
+    const alert: Alert = {
+        avgSpeed: 0,
+        coordinates: { latitude: 0, longitude: 0 },
+        id: '1234-alert',
+        refSpeed: 0,
+        roadName: 'Test Road',
+        severity: AlertSeverity.WARN,
+        speed: 0,
+        status: AlertStatus.NEW,
+        time: '',
+        type: AlertType.CONGESTION,
+    };
+    const alertMessage = JSON.stringify(alert);
+    socketServer.send(alertMessage);
+    await waitForExpect(() => {
+        const newAlert = screen.getByText('Test Road');
+        expect(newAlert).toBeInTheDocument();
+    });
 });

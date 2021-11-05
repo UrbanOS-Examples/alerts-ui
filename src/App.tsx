@@ -1,12 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { AlertPane } from './AlertPane';
-import { w3cwebsocket as W3CWebSocket } from 'websocket';
 import { TitleBar } from './TitleBar';
-
-const client = new W3CWebSocket(
-    'wss://alerts-api.staging.internal.smartcolumbusos.com',
-);
 
 export interface Alert {
     id: string;
@@ -78,7 +73,10 @@ const alert2: Alert = {
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
-    camera: undefined,
+    camera: {
+        name: 'HAYDEN RUN BLVD & HAYDEN RUN RD @ HAYDEN RUN RD & SPRING RIVER AVE',
+        distance: 0.00009,
+    },
 };
 
 const alert3: Alert = {
@@ -100,25 +98,28 @@ const alert3: Alert = {
 
 export default function App() {
     const [alerts, setAlerts] = useState([alert, alert2, alert3]);
+    const websocketRef = useRef<WebSocket>();
 
     useEffect(() => {
-        client.onopen = () => {
+        const websocket = new WebSocket(`${process.env.REACT_APP_ALERTS_URL}`);
+        websocket.onopen = () => {
             console.log('Connected to Alerting Engine');
         };
-
-        client.onmessage = (message) => {
-            const alert = message.data as string;
-            if (alert !== 'Connected') {
-                const parsedAlert = JSON.parse(alert) as Alert;
-                console.log('Received Alert');
-                console.log(parsedAlert.coordinates);
-                setAlerts((alerts) => [parsedAlert, ...alerts]);
-            }
+        websocket.onerror = () => {
+            console.log('Error received from server');
         };
-
-        client.onclose = () => {
+        websocket.onclose = () => {
             console.log('Disconnected');
         };
+        websocket.onmessage = (message) => {
+            const stringMessage = message.data as string;
+            if (stringMessage !== 'Connected') {
+                console.log(stringMessage);
+                const alert = JSON.parse(stringMessage) as Alert;
+                setAlerts((alerts) => [alert, ...alerts]);
+            }
+        };
+        websocketRef.current = websocket;
     });
 
     return (

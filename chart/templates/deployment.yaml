@@ -23,3 +23,8 @@ spec:
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         resources:
 {{ toYaml .Values.resources | indent 10 }}
+        env:
+          - name: ALERTS_URL
+            value: { { .Values.url.alerts } }
+          - name: FEEDBACK_URL
+            value: { { .Values.url.feedback } }

@@ -1,3 +1,6 @@
 ingress:
     annotations:
         alb.ingress.kubernetes.io/scheme: 'internet-facing'
+env:
+  alerts_url: 'wss://alerts-api.smartcolumbusos.com'
+  feedback_url: 'https://alerts-api.smartcolumbusos.com/feedback'
