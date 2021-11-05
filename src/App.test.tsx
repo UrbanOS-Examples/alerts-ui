@@ -116,7 +116,7 @@ test('only open one websocket connection', async () => {
     const alert: Alert = {
         avgSpeed: 0,
         coordinates: { latitude: 0, longitude: 0 },
-        id: '1234-alert',
+        id: '7777-alert',
         refSpeed: 0,
         roadName: 'Test Road',
         severity: AlertSeverity.WARN,
