@@ -30,8 +30,9 @@ test('renders alert pane', () => {
     expect(container.getElementsByClassName('AlertPane').length).toBe(1);
 });
 
-test('connects to alert stream on startup', () => {
+test('connects to alert stream on startup', async () => {
     render(<App />);
+    await socketServer.connected;
     expect(numberOfWebsocketClients()).toEqual(1);
 });
 
@@ -57,11 +58,13 @@ test('logs when the socket is disconnected', async () => {
     socketServer.close();
     await waitForExpect(() => {
         expect(fakeConsole).toHaveBeenCalledWith('Disconnected');
+        expect(numberOfWebsocketClients()).toEqual(0);
     });
 });
 
 test('logs when new alert is received', async () => {
     render(<App />);
+    await socketServer.connected;
     const alert: Alert = {
         avgSpeed: 0,
         coordinates: { latitude: 0, longitude: 0 },
@@ -84,6 +87,7 @@ test('logs when new alert is received', async () => {
 
 test('adds new alerts to current set', async () => {
     render(<App />);
+    await socketServer.connected;
     const alert: Alert = {
         avgSpeed: 0,
         coordinates: { latitude: 0, longitude: 0 },
@@ -135,4 +139,18 @@ test('only open one websocket connection', async () => {
         expect(newAlert).toBeInTheDocument();
     });
     expect(numberOfWebsocketClients()).toEqual(1);
+});
+
+test('reconnect after disconnect', async () => {
+    expect(numberOfWebsocketClients()).toEqual(0);
+    render(<App />);
+    const socket = await socketServer.connected;
+    expect(numberOfWebsocketClients()).toEqual(1);
+    socket.close();
+    await waitForExpect(() => {
+        expect(numberOfWebsocketClients()).toEqual(0);
+    });
+    await waitForExpect(() => {
+        expect(numberOfWebsocketClients()).toEqual(1);
+    });
 });

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
 import { AlertPane } from './AlertPane';
 import { TitleBar } from './TitleBar';
+import ReconnectingWebSocket from 'reconnecting-websocket';
 
 export interface Alert {
     id: string;
@@ -92,28 +93,31 @@ const alert3: Alert = {
 
 export default function App() {
     const [alerts, setAlerts] = useState([alert, alert2, alert3]);
-    const websocketRef = useRef<WebSocket>();
+    const websocketRef = useRef<ReconnectingWebSocket>();
 
     useEffect(() => {
-        const websocket = new WebSocket(`${process.env.REACT_APP_ALERTS_URL}`);
-        websocket.onopen = () => {
-            console.log('Connected to Alerting Engine');
-        };
-        websocket.onerror = () => {
-            console.log('Error received from server');
-        };
-        websocket.onclose = () => {
-            console.log('Disconnected');
-        };
-        websocket.onmessage = (message) => {
+        const websocket = new ReconnectingWebSocket(
+            `${process.env.REACT_APP_ALERTS_URL}`,
+        );
+        websocket.addEventListener('message', (message) => {
             const stringMessage = message.data as string;
             if (stringMessage !== 'Connected') {
                 console.log(stringMessage);
                 const alert = JSON.parse(stringMessage) as Alert;
                 setAlerts((alerts) => [alert, ...alerts]);
             }
-        };
+        });
+        websocket.addEventListener('open', () => {
+            console.log('Connected to Alerting Engine');
+        });
+        websocket.addEventListener('close', () => {
+            console.log('Disconnected');
+        });
+        websocket.addEventListener('error', () => {
+            console.log('Error received from server');
+        });
         websocketRef.current = websocket;
+        return () => websocket.close();
     }, []);
 
     return (
