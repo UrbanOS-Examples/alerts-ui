@@ -40,59 +40,8 @@ export enum AlertSeverity {
     WARN = 'warn',
 }
 
-const alert: Alert = {
-    avgSpeed: 60,
-    coordinates: {
-        latitude: -23,
-        longitude: -45,
-    },
-    id: '5678-alert',
-    refSpeed: 70,
-    location: 'HERON DRIVE',
-    severity: AlertSeverity.WARN,
-    speed: 0,
-    status: AlertStatus.NEW,
-    time: new Date().toString(),
-    type: AlertType.CONGESTION,
-    camera: 'CRANE CT @ BIRD LN',
-};
-
-const alert2: Alert = {
-    avgSpeed: 100,
-    coordinates: {
-        latitude: -23,
-        longitude: -45,
-    },
-    id: '9876-alert',
-    refSpeed: 70,
-    location: 'JOE DRIVE',
-    severity: AlertSeverity.WARN,
-    speed: 0,
-    status: AlertStatus.NEW,
-    time: '2021-10-27T21:36:00.231343Z',
-    type: AlertType.CONGESTION,
-    camera: 'HAYDEN RUN BLVD & HAYDEN RUN RD @ HAYDEN RUN RD & SPRING RIVER AVE',
-};
-
-const alert3: Alert = {
-    avgSpeed: 60,
-    coordinates: {
-        latitude: -23,
-        longitude: -45,
-    },
-    id: '0001-alert',
-    refSpeed: 70,
-    location: 'APPLE STREET',
-    severity: AlertSeverity.WARN,
-    speed: 0,
-    status: AlertStatus.NEW,
-    time: '2021-10-27T21:36:00.231343Z',
-    type: AlertType.CONGESTION,
-    camera: null,
-};
-
 export default function App() {
-    const [alerts, setAlerts] = useState([alert, alert2, alert3]);
+    const [alerts, setAlerts] = useState<Alert[]>([]);
     const websocketRef = useRef<ReconnectingWebSocket>();
 
     useEffect(() => {
