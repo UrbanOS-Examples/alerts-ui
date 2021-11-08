@@ -67,12 +67,13 @@ test('logs when new alert is received', async () => {
         coordinates: { latitude: 0, longitude: 0 },
         id: '1234-alert',
         refSpeed: 0,
-        roadName: '',
+        location: '',
         severity: AlertSeverity.WARN,
         speed: 0,
         status: AlertStatus.NEW,
         time: '',
         type: AlertType.CONGESTION,
+        camera: null,
     };
     const alertMessage = JSON.stringify(alert);
     socketServer.send(alertMessage);
@@ -88,12 +89,13 @@ test('adds new alerts to current set', async () => {
         coordinates: { latitude: 0, longitude: 0 },
         id: '1234-alert',
         refSpeed: 0,
-        roadName: 'Test Road',
+        location: 'Test Road',
         severity: AlertSeverity.WARN,
         speed: 0,
         status: AlertStatus.NEW,
         time: '',
         type: AlertType.CONGESTION,
+        camera: null,
     };
     const alertMessage = JSON.stringify(alert);
     socketServer.send(alertMessage);
@@ -118,12 +120,13 @@ test('only open one websocket connection', async () => {
         coordinates: { latitude: 0, longitude: 0 },
         id: '7777-alert',
         refSpeed: 0,
-        roadName: 'Test Road',
+        location: 'Test Road',
         severity: AlertSeverity.WARN,
         speed: 0,
         status: AlertStatus.NEW,
         time: '',
         type: AlertType.CONGESTION,
+        camera: null,
     };
     const alertMessage = JSON.stringify(alert);
     socketServer.send(alertMessage);

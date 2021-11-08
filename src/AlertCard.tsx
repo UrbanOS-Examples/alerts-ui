@@ -101,9 +101,9 @@ export function AlertCard(props: AlertCardProps) {
                             className="AlertCard-roadName"
                             data-testid="roadName"
                         >
-                            {formatToTitleCase(props.alert.roadName)}
+                            {formatToTitleCase(props.alert.location)}
                         </div>
-                        {props.alert.camera && (
+                        {props.alert.camera !== null && (
                             <div
                                 className="AlertCard-camera"
                                 data-testid="camera"
@@ -115,7 +115,7 @@ export function AlertCard(props: AlertCardProps) {
                                     alt="Camera available"
                                 />
                                 <span className="AlertCard-cameraText AlertCard-smallFont">
-                                    {formatToTitleCase(props.alert.camera.name)}
+                                    {formatToTitleCase(props.alert.camera)}
                                 </span>
                             </div>
                         )}
