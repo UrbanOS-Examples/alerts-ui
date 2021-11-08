@@ -9,12 +9,12 @@ export interface Alert {
     severity: AlertSeverity;
     time: string;
     coordinates: Coordinates;
-    roadName: string;
+    location: string;
     status: AlertStatus;
     speed: number;
     avgSpeed: number;
     refSpeed: number;
-    camera?: Camera;
+    camera: string | null;
 }
 
 export interface Camera {
@@ -47,16 +47,13 @@ const alert: Alert = {
     },
     id: '5678-alert',
     refSpeed: 70,
-    roadName: 'HERON DRIVE',
+    location: 'HERON DRIVE',
     severity: AlertSeverity.WARN,
     speed: 0,
     status: AlertStatus.NEW,
     time: new Date().toString(),
     type: AlertType.CONGESTION,
-    camera: {
-        name: 'CRANE CT @ BIRD LN',
-        distance: 0.1,
-    },
+    camera: 'CRANE CT @ BIRD LN',
 };
 
 const alert2: Alert = {
@@ -67,16 +64,13 @@ const alert2: Alert = {
     },
     id: '9876-alert',
     refSpeed: 70,
-    roadName: 'JOE DRIVE',
+    location: 'JOE DRIVE',
     severity: AlertSeverity.WARN,
     speed: 0,
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
-    camera: {
-        name: 'HAYDEN RUN BLVD & HAYDEN RUN RD @ HAYDEN RUN RD & SPRING RIVER AVE',
-        distance: 0.00009,
-    },
+    camera: 'HAYDEN RUN BLVD & HAYDEN RUN RD @ HAYDEN RUN RD & SPRING RIVER AVE',
 };
 
 const alert3: Alert = {
@@ -87,13 +81,13 @@ const alert3: Alert = {
     },
     id: '0001-alert',
     refSpeed: 70,
-    roadName: 'APPLE STREET',
+    location: 'APPLE STREET',
     severity: AlertSeverity.WARN,
     speed: 0,
     status: AlertStatus.NEW,
     time: '2021-10-27T21:36:00.231343Z',
     type: AlertType.CONGESTION,
-    camera: undefined,
+    camera: null,
 };
 
 export default function App() {

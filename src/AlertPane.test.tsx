@@ -4,7 +4,7 @@ import { AlertPane } from './AlertPane';
 
 const alert: Alert = {
     id: '1234-alert',
-    roadName: 'SWALLOW RD',
+    location: 'SWALLOW RD',
     time: '2021-10-05T19:46:00.231343Z',
     type: AlertType.CONGESTION,
     severity: AlertSeverity.WARN,
@@ -16,11 +16,12 @@ const alert: Alert = {
     speed: 6,
     avgSpeed: 50,
     refSpeed: 65,
+    camera: null,
 };
 
 const alert2: Alert = {
     id: '2345-alert',
-    roadName: 'APPLE RD',
+    location: 'APPLE RD',
     time: '2020-10-05T19:46:00.231343Z',
     type: AlertType.CONGESTION,
     severity: AlertSeverity.WARN,
@@ -32,6 +33,7 @@ const alert2: Alert = {
     speed: 6,
     avgSpeed: 50,
     refSpeed: 65,
+    camera: null,
 };
 
 test('displays single alerts in pane', () => {

@@ -8,7 +8,7 @@ import waitForExpect from 'wait-for-expect';
 const oneMinute = 60000;
 const alert: Alert = {
     id: '1234-alert',
-    roadName: 'SWALLOW RD',
+    location: 'SWALLOW RD',
     time: '2021-10-05T19:46:00.231343Z',
     type: AlertType.CONGESTION,
     severity: AlertSeverity.WARN,
@@ -20,6 +20,7 @@ const alert: Alert = {
     speed: 6,
     avgSpeed: 50,
     refSpeed: 65,
+    camera: null,
 };
 
 let fakeNow: SpyInstance;
@@ -99,17 +100,14 @@ test('shows no camera when nothing available', () => {
 test('shows camera location when one is available', () => {
     const alertWithCamera: Alert = {
         avgSpeed: 60,
-        camera: {
-            name: 'CRANE CT @ BIRD LN',
-            distance: 0.1,
-        },
+        camera: 'CRANE CT @ BIRD LN',
         coordinates: {
             latitude: -20,
             longitude: 29,
         },
         id: '0000-camera-alert',
         refSpeed: 60,
-        roadName: 'CRANE COURT',
+        location: 'CRANE COURT',
         severity: AlertSeverity.WARN,
         speed: 0,
         status: AlertStatus.NEW,
