@@ -25,20 +25,12 @@ jobs:
               uses: hashicorp/setup-terraform@v1
               with:
                   terraform_version: 0.12.31
-            - name: Terraform Dev Init
-              if: ${{ !github.event.client_payload.release_tag_name }}
-              run: ./shared/scripts/tf-init -w dev
             - name: Terraform Staging Init
               if: github.event.client_payload.release_tag_name != 'prod'
               run: ./shared/scripts/tf-init -w staging
             - name: Terraform Prod Init
               if: github.event.client_payload.release_tag_name == 'prod'
               run: ./shared/scripts/tf-init -w prod
-            - name: Deploy to Dev with Terraform
-              if: ${{ !github.event.client_payload.release_tag_name }}
-              env:
-                  TF_VAR_os_role_arn: ${{secrets.DEV_ROLE_ARN}}
-              run: terraform apply --var="force_deployment="$RANDOM -auto-approve
             - name: Deploy to Staging with Terraform
               if: github.event.client_payload.release_tag_name  != 'prod'
               env:
