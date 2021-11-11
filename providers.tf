@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "helm" {
-  version = "= 2.3.0"
+  version = ">=2.4.1"
   kubernetes {
     host                   = data.aws_ssm_parameter.cluster_endpoint.value
     cluster_ca_certificate = base64decode(data.aws_ssm_parameter.cluster_ca_certificate.value)
