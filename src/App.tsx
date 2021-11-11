@@ -48,6 +48,7 @@ export default function App() {
         const websocket = new ReconnectingWebSocket(
             `${process.env.REACT_APP_ALERTS_URL}`,
         );
+        console.log(`${process.env.REACT_APP_ALERTS_URL}`)
         websocket.addEventListener('message', (message) => {
             const stringMessage = message.data as string;
             if (stringMessage !== 'Connected') {

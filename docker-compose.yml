@@ -7,6 +7,9 @@ services:
       - app-tier
     ports:
       - '80:80'
+    environment:
+      ALERTS_URL: 'wss://alerts-api.staging.internal.smartcolumbusos.com'
+      FEEDBACK_URL: 'https://alerts-api.staging.internal.smartcolumbusos.com/feedback'
   api:
     image: 'alerts-dashboard'
     networks:

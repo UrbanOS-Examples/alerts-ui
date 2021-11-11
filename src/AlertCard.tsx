@@ -60,6 +60,7 @@ export function AlertCard(props: AlertCardProps) {
         const feedbackBoolean = providedFeedback === FeedbackOption.CONGESTION;
         const requestBody = new Feedback(props.alert.id, feedbackBoolean);
         const bodyAsString = JSON.stringify(requestBody);
+        console.log(`${process.env.REACT_APP_FEEDBACK_URL}`)
         window
             .fetch(`${process.env.REACT_APP_FEEDBACK_URL}`, {
                 method: 'POST',
