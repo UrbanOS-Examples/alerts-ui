@@ -47,7 +47,7 @@ export default function App() {
 
     useEffect(() => {
         const websocket = new ReconnectingWebSocket(
-            Config.alerts_url
+            `${Config.alerts_url}`
         );
         websocket.addEventListener('message', (message) => {
             const stringMessage = message.data as string;

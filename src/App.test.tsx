@@ -4,13 +4,17 @@ import App, { Alert, AlertSeverity, AlertStatus, AlertType } from './App';
 import WS from 'jest-websocket-mock';
 import waitForExpect from 'wait-for-expect';
 import SpyInstance = jest.SpyInstance;
+export class Config {
+    static alerts_url = 'ws://localhost:9876';
+    static feedback_url = 'https://localhost/feedback';
+  }
 
 let fakeConsole: SpyInstance;
 let socketServer: WS;
 
 beforeEach(() => {
     fakeConsole = jest.spyOn(console, 'log').mockImplementation();
-    const url: string = `${process.env.REACT_APP_ALERTS_URL}`;
+    const url: string = `${Config.alerts_url}`;
     socketServer = new WS(url);
 });
 
