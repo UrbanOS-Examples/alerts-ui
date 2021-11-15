@@ -5,6 +5,7 @@ import congestionIcon from './congestion_icon.png';
 import cameraIcon from './videocam.png';
 import { ReactComponent as ThumbUpIcon } from './thumbsup.svg';
 import { ReactComponent as ThumbDownIcon } from './thumbsdown.svg';
+import { Config } from './config'
 
 interface AlertCardProps {
     alert: Alert;
@@ -60,9 +61,8 @@ export function AlertCard(props: AlertCardProps) {
         const feedbackBoolean = providedFeedback === FeedbackOption.CONGESTION;
         const requestBody = new Feedback(props.alert.id, feedbackBoolean);
         const bodyAsString = JSON.stringify(requestBody);
-        console.log(`${process.env.REACT_APP_FEEDBACK_URL}`)
         window
-            .fetch(`${process.env.REACT_APP_FEEDBACK_URL}`, {
+            .fetch(Config.feedback_url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

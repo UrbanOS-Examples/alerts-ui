@@ -8,8 +8,8 @@ services:
     ports:
       - '80:80'
     environment:
-      ALERTS_URL: 'wss://alerts-api.staging.internal.smartcolumbusos.com'
-      FEEDBACK_URL: 'https://alerts-api.staging.internal.smartcolumbusos.com/feedback'
+      ALERTS_URL: 'wss://localhost:8080'
+      FEEDBACK_URL: 'https://localhost:8081/feedback'
   api:
     image: 'alerts-dashboard'
     networks:
