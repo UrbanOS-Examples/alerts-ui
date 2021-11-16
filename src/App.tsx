@@ -3,6 +3,7 @@ import './App.css';
 import { AlertPane } from './AlertPane';
 import { TitleBar } from './TitleBar';
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { Config } from './config'
 
 export interface Alert {
     id: string;
@@ -46,7 +47,7 @@ export default function App() {
 
     useEffect(() => {
         const websocket = new ReconnectingWebSocket(
-            `${process.env.REACT_APP_ALERTS_URL}`,
+            `${Config.alerts_url}`
         );
         websocket.addEventListener('message', (message) => {
             const stringMessage = message.data as string;

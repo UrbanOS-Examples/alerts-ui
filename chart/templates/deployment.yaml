@@ -25,6 +25,6 @@ spec:
 {{ toYaml .Values.resources | indent 10 }}
         env:
           - name: ALERTS_URL
-            value: {{ .Values.url.alerts }}
+            value: {{ .Values.env.url.alerts }}
           - name: FEEDBACK_URL
-            value: {{ .Values.url.feedback }}
+            value: {{ .Values.env.url.feedback }}

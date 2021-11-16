@@ -7,6 +7,9 @@ services:
       - app-tier
     ports:
       - '80:80'
+    environment:
+      ALERTS_URL: 'wss://localhost:8080'
+      FEEDBACK_URL: 'https://localhost:8081/feedback'
   api:
     image: 'alerts-dashboard'
     networks:
