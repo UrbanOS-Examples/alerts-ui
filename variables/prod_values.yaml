@@ -4,4 +4,4 @@ ingress:
 env:  
   url:
     alerts: 'wss://alerts-api.smartcolumbusos.com'
-    feedback: 'https://alerts-api.smartcolumbusos.com/feedback'
+    feedback: 'https://alerts-feedback.smartcolumbusos.com/feedback'

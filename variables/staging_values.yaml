@@ -1,4 +1,4 @@
 env:
   url:
     alerts: 'wss://alerts-api.staging.internal.smartcolumbusos.com'
-    feedback: 'https://alerts-api.staging.internal.smartcolumbusos.com/feedback'
+    feedback: 'https://alerts-feedback.staging.internal.smartcolumbusos.com/feedback'
