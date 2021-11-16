@@ -1,9 +1,10 @@
-import { render, screen } from '@testing-library/react';
+import { AllByAttribute, render, screen } from '@testing-library/react';
 import { AlertCard } from './AlertCard';
 import { Alert, AlertSeverity, AlertStatus, AlertType } from './App';
 import { act } from 'react-dom/test-utils';
 import SpyInstance = jest.SpyInstance;
 import waitForExpect from 'wait-for-expect';
+import { Config } from './config'
 
 const oneMinute = 60000;
 const alert: Alert = {
@@ -37,6 +38,8 @@ beforeEach(() => {
     fakeNow = jest.spyOn(Date, 'now');
     fakeFetch = jest.spyOn(window, 'fetch');
     fakeConsole = jest.spyOn(console, 'log').mockImplementation();
+    Config.feedback_url = 'https://localhost/feedback';
+
 });
 
 afterEach(() => {
