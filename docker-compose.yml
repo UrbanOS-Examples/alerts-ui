@@ -9,7 +9,7 @@ services:
       - '80:80'
     environment:
       ALERTS_URL: 'ws://localhost:8080'
-      FEEDBACK_URL: 'https://localhost:8081/feedback'
+      FEEDBACK_URL: 'http://localhost:8081/feedback'
   api:
     image: 'alerts-dashboard'
     networks:
