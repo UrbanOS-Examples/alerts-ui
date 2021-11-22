@@ -1,8 +1,8 @@
-FROM node:14.17.4-alpine AS builder
+FROM node:16-alpine AS builder
 COPY . /app/src
 WORKDIR /app/src
 RUN apk add --no-cache --virtual .gyp \
-    python \
+    python3 \
     make \
     g++ \
     && npm install \
