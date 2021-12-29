@@ -5,7 +5,8 @@ import { AlertPane } from './AlertPane';
 import { TitleBar } from './TitleBar';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Config } from './config'
-import ReactMapGL from 'react-map-gl'
+import ReactMapGL, {Marker} from 'react-map-gl'
+import congestionIcon from './congestion_icon.png';
 
 export interface Alert {
     id: string;
@@ -90,6 +91,22 @@ export default function App() {
                     setViewport(viewport);
                 }}
             >
+                {alerts.map ((congestionAlert) => (
+                    <Marker
+                    key={congestionAlert.id}
+                    latitude={congestionAlert.coordinates.latitude}
+                    longitude={congestionAlert.coordinates.longitude}
+                    >
+                        <div>
+                        <img
+                            className="AlertCard-congestionIcon"
+                            data-testid="congestionIcon"
+                            src={congestionIcon}
+                            alt=""
+                        />
+                        </div>
+                    </Marker>
+                ))}
                 <div className="alertList">
                     <AlertPane alerts={alerts} />
                 </div>
