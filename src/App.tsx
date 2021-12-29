@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './App.css';
+import './AlertPane.css';
 import { AlertPane } from './AlertPane';
 import { TitleBar } from './TitleBar';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Config } from './config'
+import ReactMapGL from 'react-map-gl'
 
 export interface Alert {
     id: string;
@@ -43,6 +45,13 @@ export enum AlertSeverity {
 
 export default function App() {
     const [alerts, setAlerts] = useState<Alert[]>([]);
+    const [viewport, setViewport] = useState({
+        latitude: 39.98654998139231, 
+        longitude: -83.00250910125781,
+        width: '100vw',
+        height: '100vh',
+        zoom: 10
+    })
     const websocketRef = useRef<ReconnectingWebSocket>();
 
     useEffect(() => {
@@ -73,9 +82,18 @@ export default function App() {
     return (
         <div className="App">
             <TitleBar />
-            <div className="alertList">
-                <AlertPane alerts={alerts} />
-            </div>
+            <ReactMapGL 
+                {...viewport} 
+                mapboxApiAccessToken={Config.mapbox_key}
+                mapStyle="mapbox://styles/mapbox/streets-v11"
+                onViewportChange={(viewport: React.SetStateAction<{ latitude: number; longitude: number; width: string; height: string; zoom: number; }>) => {
+                    setViewport(viewport);
+                }}
+            >
+                <div className="alertList">
+                    <AlertPane alerts={alerts} />
+                </div>
+            </ReactMapGL>
         </div>
     );
 }
