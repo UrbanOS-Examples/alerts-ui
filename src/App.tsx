@@ -86,7 +86,7 @@ export default function App() {
             <ReactMapGL 
                 {...viewport} 
                 mapboxApiAccessToken={Config.mapbox_key}
-                mapStyle="mapbox://styles/mapbox/streets-v11"
+                mapStyle="mapbox://styles/mapbox/light-v10"
                 onViewportChange={(viewport: React.SetStateAction<{ latitude: number; longitude: number; width: string; height: string; zoom: number; }>) => {
                     setViewport(viewport);
                 }}
@@ -97,14 +97,27 @@ export default function App() {
                     latitude={congestionAlert.coordinates.latitude}
                     longitude={congestionAlert.coordinates.longitude}
                     >
-                        <div>
-                        <img
-                            className="AlertCard-congestionIcon"
-                            data-testid="congestionIcon"
-                            src={congestionIcon}
-                            alt=""
-                        />
-                        </div>
+                        <button
+                        className="marker-btn"
+                        onClick={e => {
+                            e.preventDefault();
+                            setViewport({
+                                ...viewport,
+                                longitude: congestionAlert.coordinates.longitude,
+                                latitude: congestionAlert.coordinates.latitude,
+                                width: '100vw',
+                                height: '100vh',
+                                zoom: 20
+                              });
+                          }}
+                        >
+                            <img
+                                className="AlertCard-congestionIcon"
+                                data-testid="congestionIcon"
+                                src={congestionIcon}
+                                alt=""
+                            />
+                        </button>
                     </Marker>
                 ))}
                 <div className="alertList">
