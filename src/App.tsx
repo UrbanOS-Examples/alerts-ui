@@ -6,6 +6,7 @@ import { TitleBar } from './TitleBar';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { Config } from './config'
 import ReactMapGL, {Marker} from 'react-map-gl'
+import 'mapbox-gl/dist/mapbox-gl.css';
 import congestionIcon from './congestion_icon.png';
 
 export interface Alert {
