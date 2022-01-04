@@ -8,6 +8,7 @@ import { Config } from './config'
 import ReactMapGL, {Marker} from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import congestionIcon from './congestion_icon.png';
+import { MAPBOX_PUBLIC_KEY } from './mapbox_public_key'
 
 export interface Alert {
     id: string;
@@ -86,7 +87,7 @@ export default function App() {
             <TitleBar />
             <ReactMapGL 
                 {...viewport} 
-                mapboxApiAccessToken={Config.mapbox_key}
+                mapboxApiAccessToken={MAPBOX_PUBLIC_KEY}
                 mapStyle="mapbox://styles/mapbox/light-v10"
                 onViewportChange={(viewport: React.SetStateAction<{ latitude: number; longitude: number; width: string; height: string; zoom: number; }>) => {
                     setViewport(viewport);
