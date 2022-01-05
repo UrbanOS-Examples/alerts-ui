@@ -1,0 +1,17 @@
+.AlertPane {
+    float: right;
+    background-color: lightgray;
+}
+
+.AlertPaneTitle {
+    background-color: white;
+    text-align: left;
+    box-shadow: 0 12px 8px -8px gray;
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    font-weight: 500;
+    height: 50px;
+    width: 360px;
+    line-height: 50px;
+    margin-top: -25px;
+}

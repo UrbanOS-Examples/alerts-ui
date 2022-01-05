@@ -1,2 +1,2 @@
-window.ALERTS_URL = 'ws://localhost:9876';
+window.ALERTS_URL = 'ws://localhost:8080';
 window.FEEDBACK_URL = 'https://localhost/feedback';

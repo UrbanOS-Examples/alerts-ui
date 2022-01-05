@@ -1,0 +1,1 @@
+export let MAPBOX_PUBLIC_KEY = 'pk.eyJ1Ijoic21hcnR1cmJhbm9zIiwiYSI6ImNreHl5NDJwOTlnbmwydm11ajZndzRmcmgifQ.FDnF3PA560E6ccm6Ws-tSw'

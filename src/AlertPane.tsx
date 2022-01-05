@@ -10,5 +10,12 @@ export function AlertPane(props: AlertPaneProps) {
         <AlertCard alert={alert} key={alert.id} />
     ));
 
-    return <div className="AlertPane">{listAlerts}</div>;
+    const numberOfAlerts = props.alerts.length;
+
+    return <div className="AlertPane">
+                <div className="AlertPaneTitle">
+                     <pre> Alerts ({numberOfAlerts}) </pre>
+                </div>
+                {listAlerts}
+            </div>;
 }
