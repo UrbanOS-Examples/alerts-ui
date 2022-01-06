@@ -66,7 +66,15 @@ export default function App() {
             if (stringMessage !== 'Connected') {
                 console.log(stringMessage);
                 const alert = JSON.parse(stringMessage) as Alert;
-                setAlerts((alerts) => [alert, ...alerts]);
+                if (!alerts.includes(alert)) {
+                    setAlerts((alerts) => [alert, ...alerts]);
+                }
+                setViewport({
+                    latitude: 39.98654998139231, 
+                    longitude: -83.00250910125781,
+                    width: '100vw',
+                    height: '100vh',
+                    zoom: 10})
             }
         });
         websocket.addEventListener('open', () => {
@@ -74,12 +82,14 @@ export default function App() {
         });
         websocket.addEventListener('close', () => {
             console.log('Disconnected');
+            setAlerts((alerts) => [])
         });
         websocket.addEventListener('error', () => {
             console.log('Error received from server');
         });
         websocketRef.current = websocket;
         return () => websocket.close();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -89,6 +99,7 @@ export default function App() {
                 {...viewport} 
                 mapboxApiAccessToken={MAPBOX_PUBLIC_KEY}
                 mapStyle="mapbox://styles/mapbox/light-v10"
+                minZoom={8}
                 onViewportChange={(viewport: React.SetStateAction<{ latitude: number; longitude: number; width: string; height: string; zoom: number; }>) => {
                     setViewport(viewport);
                 }}
