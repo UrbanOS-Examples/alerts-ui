@@ -29,4 +29,5 @@
     background-color: white;
     border: none;
     border: 2px solid lightgray;
+    overflow-y: scroll;
 }
