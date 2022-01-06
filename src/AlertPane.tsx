@@ -3,11 +3,19 @@ import { Alert } from './App';
 
 interface AlertPaneProps {
     alerts: Alert[];
+    goToFunc: any;
 }
 
 export function AlertPane(props: AlertPaneProps) {
     const listAlerts = props.alerts.map((alert) => (
-        <AlertCard alert={alert} key={alert.id} />
+        <button
+        key={alert.id}
+        className="AlertButton"
+        onClick={ () => props.goToFunc(alert.coordinates.latitude, alert.coordinates.longitude)}
+        >
+            <AlertCard alert={alert} key={alert.id} />
+        </button>
+       
     ));
 
     const numberOfAlerts = props.alerts.length;
@@ -16,6 +24,8 @@ export function AlertPane(props: AlertPaneProps) {
                 <div className="AlertPaneTitle">
                      <pre> Alerts ({numberOfAlerts}) </pre>
                 </div>
-                {listAlerts}
+                <div className ="AlertsInAlertPane">
+                    {listAlerts}
+                </div>
             </div>;
 }

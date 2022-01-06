@@ -55,6 +55,17 @@ export default function App() {
         height: '100vh',
         zoom: 10
     })
+
+    const goToCoordinates = (latitude: number, longitude: number) => {
+        setViewport({
+          ...viewport,
+          longitude: longitude,
+          latitude: latitude,
+          width: '100vw',
+          height: '100vh',
+          zoom: 15,
+        });
+      };
     const websocketRef = useRef<ReconnectingWebSocket>();
 
     useEffect(() => {
@@ -112,17 +123,7 @@ export default function App() {
                     >
                         <button
                         className="marker-btn"
-                        onClick={e => {
-                            e.preventDefault();
-                            setViewport({
-                                ...viewport,
-                                longitude: congestionAlert.coordinates.longitude,
-                                latitude: congestionAlert.coordinates.latitude,
-                                width: '100vw',
-                                height: '100vh',
-                                zoom: 20
-                              });
-                          }}
+                        onClick={ () => goToCoordinates(congestionAlert.coordinates.latitude, congestionAlert.coordinates.longitude)}
                         >
                             <img
                                 className="AlertCard-congestionIcon"
@@ -134,7 +135,7 @@ export default function App() {
                     </Marker>
                 ))}
                 <div className="alertList">
-                    <AlertPane alerts={alerts} />
+                    <AlertPane alerts={alerts} goToFunc={goToCoordinates}/>
                 </div>
             </ReactMapGL>
         </div>
