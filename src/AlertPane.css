@@ -1,6 +1,6 @@
 .AlertPane {
     float: right;
-    background-color: lightgray;
+    background-color: white;
     width: 360px;
 }
 
@@ -11,10 +11,11 @@
     font-family: 'Roboto', sans-serif;
     font-size: 24px;
     font-weight: 500;
-    height: 50px;
+    height: 70px;
     width: 360px;
     line-height: 50px;
     margin-top: -25px;
+    border: 2px solid lightgray;
 }
 
 .AlertsInAlertPane {
@@ -22,4 +23,10 @@
     height: 144px;
     background-color: white;
     border: none;
+}
+
+.AlertButton {
+    background-color: white;
+    border: none;
+    border: 2px solid lightgray;
 }

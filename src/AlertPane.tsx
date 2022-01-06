@@ -9,6 +9,7 @@ interface AlertPaneProps {
 export function AlertPane(props: AlertPaneProps) {
     const listAlerts = props.alerts.map((alert) => (
         <button
+        className="AlertButton"
         onClick={ () => props.goToFunc(alert.coordinates.latitude, alert.coordinates.longitude)}
         >
             <AlertCard alert={alert} key={alert.id} />
