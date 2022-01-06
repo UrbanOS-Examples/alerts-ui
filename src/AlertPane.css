@@ -1,6 +1,7 @@
 .AlertPane {
     float: right;
     background-color: lightgray;
+    width: 360px;
 }
 
 .AlertPaneTitle {
@@ -14,4 +15,11 @@
     width: 360px;
     line-height: 50px;
     margin-top: -25px;
+}
+
+.AlertsInAlertPane {
+    width: 360px;
+    height: 144px;
+    background-color: white;
+    border: none;
 }
